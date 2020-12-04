@@ -4,6 +4,7 @@
     <router-link to="/about">About</router-link>
   </div>
   <router-view />
+  <el-button>adsfadsf</el-button>
 </template>
 
 <style lang="scss">
