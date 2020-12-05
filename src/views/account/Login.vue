@@ -2,7 +2,7 @@
     <div id="login">
         <div class="form-wrap">
             <ul class="menu-tab">
-                <li class="current" v-for="item in data.tab_menu" :key="item.type">{{ item.label }}</li>
+                <li :class="{'current': current === item.type}" v-for="item in data.tab_menu" :key="item.type">{{ item.label }}</li>
             </ul>
             <el-form ref="form" :model="form">
                 <el-form-item>
@@ -50,10 +50,11 @@ export default {
                 { type: "register", label: "注册" }
             ]
         })
-
+        let current = ref(data.tab_menu[0].type);
         return {
             form,
-            data
+            data,
+            current
         }
     }
 }
