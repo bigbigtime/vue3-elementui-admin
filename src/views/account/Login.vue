@@ -2,8 +2,7 @@
     <div id="login">
         <div class="form-wrap">
             <ul class="menu-tab">
-                <li class="current">登录</li>
-                <li>注册</li>
+                <li class="current" v-for="item in data.tab_menu" :key="item.type">{{ item.label }}</li>
             </ul>
             <el-form ref="form" :model="form">
                 <el-form-item>
@@ -45,8 +44,16 @@ export default {
             password: "",
             code: ""
         });
+        const data = reactive({
+            tab_menu: [
+                { type: "login", label: "登录" },
+                { type: "register", label: "注册" }
+            ]
+        })
+
         return {
-            form
+            form,
+            data
         }
     }
 }
