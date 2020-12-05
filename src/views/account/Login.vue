@@ -2,7 +2,7 @@
     <div id="login">
         <div class="form-wrap">
             <ul class="menu-tab">
-                <li @click="toggleMenu(item.type)" :class="{'current': current_menu === item.type}" v-for="item in data.tab_menu" :key="item.type">{{ item.label }}</li>
+                <li @click="current_menu = item.type" :class="{'current': current_menu === item.type}" v-for="item in data.tab_menu" :key="item.type">{{ item.label }}</li>
             </ul>
             <el-form ref="form" :model="form">
                 <el-form-item>
