@@ -5,6 +5,15 @@
                 <li class="current">登录</li>
                 <li>注册</li>
             </ul>
+            <el-form ref="form" :model="form">
+                <el-form-item>
+                    <label class="form-label">用户名</label>
+                    <el-input v-model="form.name"></el-input>
+                </el-form-item>
+                <el-form-item>
+                    <el-button type="primary" @click="submit">立即创建</el-button>
+                </el-form-item>
+            </el-form>
         </div>
     </div>
 </template>
@@ -12,9 +21,17 @@
 <script>
 import { reactive, ref, onMounted, watch } from 'vue';
 export default {
-   name: "Login",
-   components: {},
-   props: {}
+    name: "Login",
+    components: {},
+    props: {},
+    setup(props, { root }){
+        const form = reactive({
+            name: ""
+        });
+        return {
+            form
+        }
+    }
 }
 </script>
 <style lang='scss' scoped>
@@ -40,4 +57,10 @@ export default {
         &.current { background-color: rgba(0, 0, 0, .1);}
     }
 }
+.form-label {
+    display: block;  // 转为块元素
+    color: #fff;      // 设置字体颜色 
+    font-size: 14px; // 设置字体大小
+}
+
 </style>
