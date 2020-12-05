@@ -2,7 +2,7 @@
     <div id="login">
         <div class="form-wrap">
             <ul class="menu-tab">
-                <li :class="{'current': current === item.type}" v-for="item in data.tab_menu" :key="item.type">{{ item.label }}</li>
+                <li @click="toggleMenu(item.type)" :class="{'current': current_menu === item.type}" v-for="item in data.tab_menu" :key="item.type">{{ item.label }}</li>
             </ul>
             <el-form ref="form" :model="form">
                 <el-form-item>
@@ -50,11 +50,17 @@ export default {
                 { type: "register", label: "注册" }
             ]
         })
-        let current = ref(data.tab_menu[0].type);
+        let current_menu = ref(data.tab_menu[0].type);
+        // 切换高光
+        const toggleMenu = ((type) => {
+            current_menu.value = type;
+        })
+
         return {
             form,
             data,
-            current
+            current_menu,
+            toggleMenu
         }
     }
 }
