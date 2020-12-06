@@ -5,20 +5,20 @@
                 <li class="current">登录</li>
                 <li>注册</li>
             </ul>
-            <el-form ref="form" :model="form">
+            <el-form ref="form">
                 <el-form-item>
                     <label class="form-label">用户名</label>
-                    <el-input v-model="form.name"></el-input>
+                    <el-input></el-input>
                 </el-form-item>
                 <el-form-item>
                     <label class="form-label">密码</label>
-                    <el-input type="password" v-model="form.password"></el-input>
+                    <el-input type="password"></el-input>
                 </el-form-item>
                 <el-form-item>
                     <label class="form-label">验证码</label>
                     <el-row :gutter="10">
                         <el-col :span="14">
-                            <el-input v-model="form.code"></el-input>
+                            <el-input></el-input>
                         </el-col>
                         <el-col :span="10">
                             <el-button type="primary">获取验证码</el-button>
@@ -26,7 +26,7 @@
                     </el-row>
                 </el-form-item>
                 <el-form-item>
-                    <el-button type="primary" @click="submit">立即创建</el-button>
+                    <el-button type="primary">立即创建</el-button>
                 </el-form-item>
             </el-form>
         </div>
@@ -39,14 +39,9 @@ export default {
     name: "Login",
     components: {},
     props: {},
-    setup(props, { root }){
-        const form = reactive({
-            name: "",
-            password: "",
-            code: ""
-        });
+    setup(props,){
         return {
-            form
+            
         }
     }
 }
