@@ -5,13 +5,13 @@
                 <li class="current">登录</li>
                 <li>注册</li>
             </ul>
-            <el-form ref="form" :model="form">
+            <el-form ref="form">
                 <el-form-item>
                     <label class="form-label">用户名</label>
-                    <el-input v-model="form.name"></el-input>
+                    <el-input></el-input>
                 </el-form-item>
                 <el-form-item>
-                    <el-button type="primary" @click="submit">立即创建</el-button>
+                    <el-button type="primary">立即创建</el-button>
                 </el-form-item>
             </el-form>
         </div>
@@ -24,10 +24,7 @@ export default {
     name: "Login",
     components: {},
     props: {},
-    setup(props, { root }){
-        const form = reactive({
-            name: ""
-        });
+    setup(props){
         return {
             form
         }
