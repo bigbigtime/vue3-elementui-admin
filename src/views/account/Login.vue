@@ -2,26 +2,26 @@
     <div id="login">
         <div class="form-wrap">
             <ul class="menu-tab">
-                <li @click="current_menu = item.type" :class="{'current': current_menu === item.type}" v-for="item in data.tab_menu" :key="item.type">{{ item.label }}</li>
+                <li @click="current_menu = item.type" :class="{'current': current_menu === item.type}" v-for="item in tab_menu" :key="item.type">{{ item.label }}</li>
             </ul>
             <el-form ref="form">
                 <el-form-item>
                     <label class="form-label">用户名</label>
-                    <el-input v-model="form.item.username"></el-input>
+                    <el-input v-model="username"></el-input>
                 </el-form-item>
                 <el-form-item>
                     <label class="form-label">密码</label>
-                    <el-input type="password" v-model="form.item.password"></el-input>
+                    <el-input type="password" v-model="password"></el-input>
                 </el-form-item>
                 <el-form-item v-if="current_menu === 'register'">
                     <label class="form-label">确认密码</label>
-                    <el-input type="password"  v-model="form.item.passwords"></el-input>
+                    <el-input type="password" v-model="passwords"></el-input>
                 </el-form-item>
                 <el-form-item>
                     <label class="form-label">验证码</label>
                     <el-row :gutter="10">
                         <el-col :span="14">
-                            <el-input v-model="form.item.code"></el-input>
+                            <el-input v-model="code"></el-input>
                         </el-col>
                         <el-col :span="10">
                             <el-button type="success" class="el-button-block">获取验证码</el-button>
@@ -37,38 +37,25 @@
 </template>
 
 <script>
-import { reactive, ref, onMounted, watch } from 'vue';
+import { reactive, ref, onMounted, watch, toRefs } from 'vue';
 export default {
     name: "Login",
     components: {},
     props: {},
     setup(props){
-        const form = reactive({
-            item: {
-                username: "",      // 用户名
-                password: "",      // 密码
-                passwords: "",     // 确认密码
-                code: ""            // 验证码
-            }   
-        });
-
         const data = reactive({
+            username: "",      // 用户名
+            password: "",      // 密码
+            passwords: "",     // 确认密码
+            code: "",          // 验证码
             tab_menu: [
                 { type: "login", label: "登录" },
                 { type: "register", label: "注册" }
-            ]
+            ],
+            current_menu: "login"
         })
-        let current_menu = ref(data.tab_menu[0].type);
-        // 切换高光
-        const toggleMenu = ((type) => {
-            current_menu.value = type;
-        })
-
         return {
-            form,
-            data,
-            current_menu,
-            toggleMenu
+            ...toRefs(data)
         }
     }
 }
