@@ -67,7 +67,10 @@ export default {
                 callback();
             }
         }
+        // 校验确认密码
         const validate_passwords_rules = (rule, value, callback) => {
+            // 如果是登录，不需要校验确认密码，默认通过
+            if(data.current_menu === "login") { callback(); }
             const regEmail = /^(?!\D+$)(?![^a-zA-Z]+$)\S{6,20}$/;
             // 获取“密码”
             const passwordValue = data.form.password;
@@ -75,7 +78,7 @@ export default {
                 callback(new Error("请输入密码"));
             } else if(!regEmail.test(value)) {
                 callback(new Error("请输入>=6并且<=20位的密码，包含数字、字母"));
-            } else if(passwordValue && passwordValue !== value){
+            } else if(passwordValue !== value){
                 callback(new Error("两次密码不一致"));
             }else {
                 callback();
