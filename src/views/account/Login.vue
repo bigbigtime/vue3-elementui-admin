@@ -43,6 +43,56 @@ export default {
     components: {},
     props: {},
     setup(props){
+        const validate_name_rules = (rule, value, callback) => {
+            const regEmail = /^([a-zA-Z]|[0-9])(\w|\-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/;
+            if (value === '') {
+                callback(new Error("请输入邮箱"));
+            } else if(!regEmail.test(value)) {
+                callback(new Error("邮箱格式不正确"));
+            } else {
+                callback();
+            }
+        }
+        const validate_password_rules = (rule, value, callback) => {
+            const regEmail = /^(?!\D+$)(?![^a-zA-Z]+$)\S{6,20}$/;
+            // 获取“确认密码”
+            const passwordsValue = data.form.passwords;
+            if (value === '') {
+                callback(new Error("请输入密码"));
+            } else if(!regEmail.test(value)) {
+                callback(new Error("请输入>=6并且<=20位的密码，包含数字、字母"));
+            } else if(passwordsValue && passwordsValue !== value){
+                callback(new Error("两次密码不一致"));
+            } else {
+                callback();
+            }
+        }
+        const validate_passwords_rules = (rule, value, callback) => {
+            const regEmail = /^(?!\D+$)(?![^a-zA-Z]+$)\S{6,20}$/;
+            // 获取“密码”
+            const passwordValue = data.form.password;
+            if (value === '') {
+                callback(new Error("请输入密码"));
+            } else if(!regEmail.test(value)) {
+                callback(new Error("请输入>=6并且<=20位的密码，包含数字、字母"));
+            } else if(passwordValue && passwordValue !== value){
+                callback(new Error("两次密码不一致"));
+            }else {
+                callback();
+            }
+        }
+        const validate_code_rules = (rule, value, callback) => {
+            const regEmail = /^[a-z0-9]{6}$/;
+            if (value === '') {
+                callback(new Error("请输入验证码"));
+            } else if(!regEmail.test(value)) {
+                callback(new Error("请输入6位的验证码"));
+            } else {
+                callback();
+            }
+        }
+
+
         const data = reactive({
             form: {
                 username: "",      // 用户名
@@ -52,17 +102,16 @@ export default {
             },
             form_rules: {
                 username: [
-                    { required: true, message: '请输入活动名称', trigger: 'change' },
-                    { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'change' }
+                    { validator: validate_name_rules, trigger: 'change' }
                 ],
                 password: [
-                    { required: true, message: '请输入密码', trigger: 'change' }
+                    { validator: validate_password_rules, trigger: 'change' }
                 ],
                 passwords: [
-                    { required: true, message: '请再次输入密码', trigger: 'change' }
+                    { validator: validate_passwords_rules, trigger: 'change' }
                 ],
                 code: [
-                    { required: true, message: '请输入验证码', trigger: 'change' }
+                    { validator: validate_code_rules, trigger: 'change' }
                 ]
             },
             tab_menu: [
