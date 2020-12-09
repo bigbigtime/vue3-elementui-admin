@@ -37,14 +37,16 @@
 </template>
 
 <script>
-import { reactive, ref, onMounted, watch, toRefs } from 'vue';
+import { reactive, ref, onMounted, watch, toRefs, getCurrentInstance } from 'vue';
 // 校验类
-import { validate_email, validate_password, validate_code } from "../../utils/validate";
+import { validate_email, validate_password, validate_code  } from "../../utils/validate";
 export default {
     name: "Login",
     components: {},
     props: {},
     setup(props){
+        const { ctx } = getCurrentInstance();
+        // 用户名校验
         const validate_name_rules = (rule, value, callback) => {
             let regEmail = validate_email(value);
             if (value === '') {
