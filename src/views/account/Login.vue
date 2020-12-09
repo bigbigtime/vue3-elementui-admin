@@ -38,28 +38,30 @@
 
 <script>
 import { reactive, ref, onMounted, watch, toRefs } from 'vue';
+// 校验类
+import { validate_email, validate_password, validate_code } from "../../utils/validate";
 export default {
     name: "Login",
     components: {},
     props: {},
     setup(props){
         const validate_name_rules = (rule, value, callback) => {
-            const regEmail = /^([a-zA-Z]|[0-9])(\w|\-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/;
+            let regEmail = validate_email(value);
             if (value === '') {
                 callback(new Error("请输入邮箱"));
-            } else if(!regEmail.test(value)) {
+            } else if(!regEmail) {
                 callback(new Error("邮箱格式不正确"));
             } else {
                 callback();
             }
         }
         const validate_password_rules = (rule, value, callback) => {
-            const regEmail = /^(?!\D+$)(?![^a-zA-Z]+$)\S{6,20}$/;
+            let regPassword = validate_password(value);
             // 获取“确认密码”
             const passwordsValue = data.form.passwords;
             if (value === '') {
                 callback(new Error("请输入密码"));
-            } else if(!regEmail.test(value)) {
+            } else if(!regPassword) {
                 callback(new Error("请输入>=6并且<=20位的密码，包含数字、字母"));
             } else if(passwordsValue && passwordsValue !== value){
                 callback(new Error("两次密码不一致"));
@@ -71,12 +73,12 @@ export default {
         const validate_passwords_rules = (rule, value, callback) => {
             // 如果是登录，不需要校验确认密码，默认通过
             if(data.current_menu === "login") { callback(); }
-            const regEmail = /^(?!\D+$)(?![^a-zA-Z]+$)\S{6,20}$/;
+            let regPassword = validate_password(value);
             // 获取“密码”
             const passwordValue = data.form.password;
             if (value === '') {
                 callback(new Error("请输入密码"));
-            } else if(!regEmail.test(value)) {
+            } else if(!regPassword) {
                 callback(new Error("请输入>=6并且<=20位的密码，包含数字、字母"));
             } else if(passwordValue !== value){
                 callback(new Error("两次密码不一致"));
@@ -85,10 +87,10 @@ export default {
             }
         }
         const validate_code_rules = (rule, value, callback) => {
-            const regEmail = /^[a-z0-9]{6}$/;
+            let regCode = validate_code(value);
             if (value === '') {
                 callback(new Error("请输入验证码"));
-            } else if(!regEmail.test(value)) {
+            } else if(!regCode) {
                 callback(new Error("请输入6位的验证码"));
             } else {
                 callback();
