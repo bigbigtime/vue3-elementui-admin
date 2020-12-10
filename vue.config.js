@@ -35,7 +35,23 @@ module.exports = {
    */
   pwa: {},
   // webpack-dev-server 相关配置
-  devServer: {},
+  devServer: {
+    open: false, // 编译完成是否打开网页
+    host: '0.0.0.0', // 指定使用地址，默认localhost,0.0.0.0代表可以被外界访问
+    port: 8081, // 访问端口
+    https: false, // 编译失败时刷新页面
+    hot: true, // 开启热加载
+    hotOnly: false,
+    proxy: {
+      '/devApi': {
+          target: "http://www.web-jshtml.cn/api/v3", //API服务器的地址  http://www.web-jshtml.cn/api
+          changeOrigin: true,
+          pathRewrite: {
+              '^/devApi': ''
+          }
+      }
+    }
+  },
   /**
    * 第三方插件配置
    */

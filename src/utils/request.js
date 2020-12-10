@@ -2,7 +2,7 @@ import axios from "axios";
 
 // 创建实例
 const instance = axios.create({
-    baseURL: "",    // 请求地址
+    baseURL: "/devApi",    // 请求地址
     timeout: 5000,  // 超时
 });
 
