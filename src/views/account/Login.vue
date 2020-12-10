@@ -24,7 +24,7 @@
                             <el-input v-model="data.form.code"></el-input>
                         </el-col>
                         <el-col :span="10">
-                            <el-button type="success" class="el-button-block">获取验证码</el-button>
+                            <el-button type="success" class="el-button-block" @click="getCode">获取验证码</el-button>
                         </el-col>
                     </el-row>
                 </el-form-item>
@@ -45,6 +45,8 @@ export default {
     components: {},
     props: {},
     setup(props){
+        const instance = getCurrentInstance();
+        // 获取实例上下文
         const { ctx } = getCurrentInstance();
         // 用户名校验
         const validate_name_rules = (rule, value, callback) => {
@@ -127,8 +129,14 @@ export default {
             ],
             current_menu: "login"
         })
+
+        // 获取验证码
+        const getCode = () => {
+            ctx.$axios.post("http://www.web-jshtml.cn/api/v3/getCode")
+        }
         return {
-            data
+            data,
+            getCode
         }
     }
 }
