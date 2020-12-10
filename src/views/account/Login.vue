@@ -24,7 +24,7 @@
                             <el-input v-model="data.form.code"></el-input>
                         </el-col>
                         <el-col :span="10">
-                            <el-button type="success" class="el-button-block" @click="getCode">获取验证码</el-button>
+                            <el-button type="success" class="el-button-block" @click="handlerGetCode">获取验证码</el-button>
                         </el-col>
                     </el-row>
                 </el-form-item>
@@ -133,12 +133,12 @@ export default {
         })
 
         // 获取验证码
-        const getCode = () => {
+        const handlerGetCode = () => {
             GetCode()
         }
         return {
             data,
-            getCode
+            handlerGetCode
         }
     }
 }
