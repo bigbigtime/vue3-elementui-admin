@@ -40,6 +40,8 @@
 import { reactive, ref, onMounted, watch, toRefs, getCurrentInstance } from 'vue';
 // 校验类
 import { validate_email, validate_password, validate_code  } from "../../utils/validate";
+// API
+import { GetCode } from "@/api/common";
 export default {
     name: "Login",
     components: {},
@@ -132,7 +134,7 @@ export default {
 
         // 获取验证码
         const getCode = () => {
-            ctx.$axios.post("http://www.web-jshtml.cn/api/v3/getCode")
+            GetCode()
         }
         return {
             data,
