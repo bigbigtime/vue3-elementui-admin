@@ -1,5 +1,5 @@
 import axios from "axios";
-
+console.log(process.env.VUE_APP_API);
 // 创建实例
 const instance = axios.create({
     baseURL: "/devApi",    // 请求地址
