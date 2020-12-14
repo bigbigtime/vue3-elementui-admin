@@ -134,6 +134,34 @@ export default {
 
         // 获取验证码
         const handlerGetCode = () => {
+            const username = data.form.username;
+            const password = data.form.password;
+            const passwords = data.form.passwords;
+            // 校验用户名
+            if(!username || !validate_email(username)) {
+                ctx.$message({
+                    message: "用户名不能为空 或 格式不正确",
+                    type: "error"
+                })
+                return false;
+            }
+            // 校验密码
+            if(!password || !validate_password(password)) {
+                ctx.$message({
+                    message: "密码不能为空 或 格式不正确",
+                    type: "error"
+                })
+                return false;
+            }
+            // 判断非 登录 时，校验两次密码
+            if(data.current_menu !== 'login' && (password !== passwords)) {
+                ctx.$message({
+                    message: "两次密码不一致",
+                    type: "error"
+                })
+                return false;
+            }
+            // 获取验证码接口
             GetCode()
         }
         return {
