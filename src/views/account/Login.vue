@@ -29,7 +29,7 @@
                     </el-row>
                 </el-form-item>
                 <el-form-item>
-                    <el-button type="danger" disabled class="el-button-block">立即创建</el-button>
+                    <el-button type="danger" disabled class="el-button-block">{{ data.current_menu === "login" ? "登录": "注册"}}</el-button>
                 </el-form-item>
             </el-form>
         </div>
