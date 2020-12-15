@@ -24,7 +24,7 @@
                             <el-input v-model="data.form.code"></el-input>
                         </el-col>
                         <el-col :span="10">
-                            <el-button type="success" class="el-button-block" @click="handlerGetCode">获取验证码</el-button>
+                            <el-button type="success" class="el-button-block" :disabled="data.code_button_disabled" @click="handlerGetCode">{{ data.code_button_text }}</el-button>
                         </el-col>
                     </el-row>
                 </el-form-item>
@@ -129,7 +129,14 @@ export default {
                 { type: "login", label: "登录" },
                 { type: "register", label: "注册" }
             ],
-            current_menu: "login"
+            current_menu: "login",
+            /**
+             * 获取验证码按钮交互
+             */
+            code_button_disabled: false,
+            code_button_loading: false,
+            code_button_text: "获取验证码",
+            code_button_timer: null
         })
 
         // 获取验证码
@@ -167,10 +174,34 @@ export default {
                 module: "register"
             }
             GetCode(requestData).then(response => {
-                console.log(response.data)
+                // 获取后端返回的数据
+                const data = response.data;   
+                // Elementui 提示
+                ctx.$message({
+                    message: data.message,
+                    type: "success"
+                })
+                // 执行倒计时
+                countdown();
             }).catch(error => {
 
             })
+        }
+
+        /** 倒计时 */
+        const countdown = (number) => {
+            let second = number || 60;                     // 默认时间
+            data.code_button_disabled = true;              // 禁用按钮
+            data.code_button_text = `倒计进${second}秒`;    // 按钮文本   
+            data.code_button_timer = setInterval(() => {  
+              second--;
+              data.code_button_text = `倒计进${second}秒`;  // 按钮文本
+              if(second <= 0) {
+                data.code_button_text = `重新获取`;         // 按钮文本
+                data.code_button_disabled = false;         // 启用按钮
+                clearInterval(data.code_button_timer);     // 清除倒计时
+              }
+            }, 1000)
         }
         return {
             data,
