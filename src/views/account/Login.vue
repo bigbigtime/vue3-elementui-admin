@@ -139,7 +139,7 @@ export default {
             const passwords = data.form.passwords;
             // 校验用户名
             if(!username || !validate_email(username)) {
-                ctx.$message({
+                ctx.$message.error({
                     message: "用户名不能为空 或 格式不正确",
                     type: "error"
                 })
@@ -154,7 +154,7 @@ export default {
                 return false;
             }
             // 判断非 登录 时，校验两次密码
-            if(data.current_menu !== 'login' && (password !== passwords)) {
+            if(data.current_menu === 'register' && (password !== passwords)) {
                 ctx.$message({
                     message: "两次密码不一致",
                     type: "error"
