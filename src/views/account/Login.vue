@@ -162,7 +162,15 @@ export default {
                 return false;
             }
             // 获取验证码接口
-            GetCode()
+            const requestData = {
+                username: data.form.username,
+                module: "register"
+            }
+            GetCode(requestData).then(response => {
+                console.log(response.data)
+            }).catch(error => {
+
+            })
         }
         return {
             data,
