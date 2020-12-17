@@ -24,7 +24,7 @@
                             <el-input v-model="data.form.code"></el-input>
                         </el-col>
                         <el-col :span="10">
-                            <el-button type="success" class="el-button-block" :disabled="data.code_button_disabled" @click="handlerGetCode">{{ data.code_button_text }}</el-button>
+                            <el-button type="success" class="el-button-block" :loading="data.code_button_loading" :disabled="data.code_button_disabled" @click="handlerGetCode">{{ data.code_button_text }}</el-button>
                         </el-col>
                     </el-row>
                 </el-form-item>
@@ -173,6 +173,8 @@ export default {
                 username: data.form.username,
                 module: "register"
             }
+            data.code_button_loading = true;
+            data.code_button_text = "发送中";
             GetCode(requestData).then(response => {
                 // 获取后端返回的数据
                 const data = response.data;   
@@ -184,17 +186,22 @@ export default {
                 // 执行倒计时
                 countdown();
             }).catch(error => {
-
+                data.code_button_loading = false;
+                data.code_button_text = "获取验证码";
             })
         }
 
         /** 倒计时 */
         const countdown = (number) => {
             let second = number || 60;                     // 默认时间
+            data.code_button_loading = false;              // 取消加载
             data.code_button_disabled = true;              // 禁用按钮
-            data.code_button_text = `倒计进${second}秒`;    // 按钮文本   
+            data.code_button_text = `倒计进${second}秒`;    // 按钮文本
+            // 判断是否存在定时器，存在则先清除   
+            if(data.code_button_timer) { clearInterval(data.code_button_timer) };   
+            // 开启定时器  
             data.code_button_timer = setInterval(() => {  
-              second--;
+              second--; 
               data.code_button_text = `倒计进${second}秒`;  // 按钮文本
               if(second <= 0) {
                 data.code_button_text = `重新获取`;         // 按钮文本
