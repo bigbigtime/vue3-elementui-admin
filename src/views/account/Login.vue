@@ -41,7 +41,7 @@ import { reactive, ref, onMounted, watch, toRefs, getCurrentInstance } from 'vue
 // 校验类
 import { validate_email, validate_password, validate_code  } from "../../utils/validate";
 // API
-import { GetCode } from "@/api/common";
+import { GetCode, ErrorHttp } from "@/api/common";
 export default {
     name: "Login",
     components: {},
@@ -106,8 +106,8 @@ export default {
 
         const data = reactive({
             form: {
-                username: "",      // 用户名
-                password: "",      // 密码
+                username: "409019683@qq.com",      // 用户名
+                password: "wo123456",      // 密码
                 passwords: "",     // 确认密码
                 code: "",          // 验证码
             },
@@ -175,7 +175,7 @@ export default {
             }
             data.code_button_loading = true;
             data.code_button_text = "发送中";
-            GetCode(requestData).then(response => {
+            ErrorHttp(requestData).then(response => {
                 // 获取后端返回的数据
                 const data = response.data;   
                 // Elementui 提示
@@ -192,8 +192,9 @@ export default {
         }
 
         /** 倒计时 */
-        const countdown = (number) => {
-            let second = number || 60;                     // 默认时间
+        const countdown = (time) => {
+            if(time && typeof time !== 'number') { return false; }
+            let second = time || 60;                     // 默认时间
             data.code_button_loading = false;              // 取消加载
             data.code_button_disabled = true;              // 禁用按钮
             data.code_button_text = `倒计进${second}秒`;    // 按钮文本

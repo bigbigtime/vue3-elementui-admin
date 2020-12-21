@@ -1,8 +1,10 @@
 import axios from "axios";
+// ElementUI 单独引入
+import { ElMessage } from 'element-plus';
 // 创建实例
 const instance = axios.create({
     baseURL: process.env.VUE_APP_API,    // 请求地址
-    timeout: 5000,  // 超时
+    timeout: 1000,  // 超时
 });
 
 // 拦截器
@@ -17,10 +19,19 @@ instance.interceptors.request.use(function (config) {
 // 添加响应拦截器
 instance.interceptors.response.use(function (response) {
     // 对响应数据做点什么
+    console.log(response)
     return response;
 }, function (error) {
+    console.log(error.request)
+    const errorData = JSON.parse(error.request.response);
+    if(errorData.message) {
+        ElMessage({
+            message: errorData.message,
+            type: "error"
+        })
+    }
     // 对响应错误做点什么
-    return Promise.reject(error);
+    return Promise.reject(errorData);
 });
 // 暴露instance
 export default instance;

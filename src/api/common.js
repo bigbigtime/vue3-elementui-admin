@@ -7,3 +7,12 @@ export function GetCode(data){
         data
     })
 }
+
+/** http 状态码异常演示接口 */
+export function ErrorHttp(data){
+    return instance.request({
+        method: "post",
+        url: "/error/",
+        data
+    })
+}
