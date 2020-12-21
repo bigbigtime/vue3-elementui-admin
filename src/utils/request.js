@@ -19,10 +19,17 @@ instance.interceptors.request.use(function (config) {
 // 添加响应拦截器
 instance.interceptors.response.use(function (response) {
     // 对响应数据做点什么
-    console.log(response)
-    return response;
+    const data = response.data;
+    if(data.resCode === 0) {
+        return Promise.resolve(data);
+    }else{
+        ElMessage({
+            message: data.message,
+            type: "error"
+        })
+        return Promise.reject(data);
+    }
 }, function (error) {
-    console.log(error.request)
     const errorData = JSON.parse(error.request.response);
     if(errorData.message) {
         ElMessage({

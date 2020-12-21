@@ -41,7 +41,7 @@ import { reactive, ref, onMounted, watch, toRefs, getCurrentInstance } from 'vue
 // 校验类
 import { validate_email, validate_password, validate_code  } from "../../utils/validate";
 // API
-import { GetCode, ErrorHttp } from "@/api/common";
+import { GetCode } from "@/api/common";
 export default {
     name: "Login",
     components: {},
@@ -175,9 +175,9 @@ export default {
             }
             data.code_button_loading = true;
             data.code_button_text = "发送中";
-            ErrorHttp(requestData).then(response => {
+            GetCode(requestData).then(response => {
                 // 获取后端返回的数据
-                const data = response.data;   
+                const data = response;   
                 // Elementui 提示
                 ctx.$message({
                     message: data.message,
