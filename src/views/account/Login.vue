@@ -42,6 +42,8 @@
 import { reactive, ref, onMounted, watch, toRefs, getCurrentInstance } from 'vue';
 // 校验类
 import { validate_email, validate_password, validate_code  } from "../../utils/validate";
+// sha1
+import sha1 from "js-sha1";
 // API
 import { GetCode } from "@/api/common";
 import { Register } from "@/api/account";
@@ -233,7 +235,7 @@ export default {
         const register = () => {
             const requestData = {
                 username: data.form.username,
-                password: data.form.password,
+                password: sha1(data.form.password),
                 code: data.form.code
             }
             console.log(requestData)
