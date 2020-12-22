@@ -29,7 +29,9 @@
                     </el-row>
                 </el-form-item>
                 <el-form-item>
-                    <el-button type="danger" :disabled="data.submit_button_disabled" class="el-button-block">{{ data.current_menu === "login" ? "登录": "注册"}}</el-button>
+                    <el-button type="danger" @click="submitForm" :disabled="data.submit_button_disabled" class="el-button-block">
+                        {{ data.current_menu === "login" ? "登录": "注册"}}
+                    </el-button>
                 </el-form-item>
             </el-form>
         </div>
@@ -94,8 +96,6 @@ export default {
         }
         const validate_code_rules = (rule, value, callback) => {
             let regCode = validate_code(value);
-            // 激活提交按钮
-            data.submit_button_disabled = !regCode;
             if (value === '') {
                 callback(new Error("请输入验证码"));
             } else if(!regCode) {
@@ -180,7 +180,9 @@ export default {
             data.code_button_text = "发送中";
             GetCode(requestData).then(response => {
                 // 获取后端返回的数据
-                const resData = response;   
+                const resData = response;  
+                // 激活提交按钮
+                data.submit_button_disabled = false; 
                 // Elementui 提示
                 ctx.$message({
                     message: resData.message,
@@ -214,9 +216,22 @@ export default {
               }
             }, 1000)
         }
+
+        /** 表单提交 */
+        const submitForm = (formName) => {
+            ctx.$refs.form.validate((valid) => {
+                if (valid) {
+                    alert('submit!');
+                } else {
+                    alert('表单验证不通过');
+                    return false;
+                }
+            });
+        }
         return {
             data,
-            handlerGetCode
+            handlerGetCode,
+            submitForm
         }
     }
 }
