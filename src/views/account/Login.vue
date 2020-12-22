@@ -244,13 +244,23 @@ export default {
                     message: response.message,
                     type: "success"
                 })
-                // 重置表单
-                ctx.$refs.form.resetFields();
-                // 切回登录模式
-                data.current_menu = "login";
-            }).catch(error => {
-                
+                reset();
             })
+        }
+        /** 重置 */
+        const reset = () => {
+            // 重置表单
+            ctx.$refs.form.resetFields();
+            // 切回登录模式
+            data.current_menu = "login";
+            // 清除定时器
+            data.code_button_timer && clearInterval(data.code_button_timer);
+            // 获取验证码重置文本
+            data.code_button_text = "获取验证码";
+            // 获取验证码激活
+            data.code_button_disabled = false;
+            // 禁用提交按钮
+            data.submit_button_disabled = true;              
         }
         /** 登录 */
         const login = () => {
