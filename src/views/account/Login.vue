@@ -94,6 +94,8 @@ export default {
         }
         const validate_code_rules = (rule, value, callback) => {
             let regCode = validate_code(value);
+            // 激活提交按钮
+            data.submit_button_disabled = !regCode;
             if (value === '') {
                 callback(new Error("请输入验证码"));
             } else if(!regCode) {
@@ -102,7 +104,6 @@ export default {
                 callback();
             }
         }
-
 
         const data = reactive({
             form: {
@@ -180,8 +181,6 @@ export default {
             GetCode(requestData).then(response => {
                 // 获取后端返回的数据
                 const resData = response;   
-                // 激活提交按钮
-                data.submit_button_disabled = false;
                 // Elementui 提示
                 ctx.$message({
                     message: resData.message,
