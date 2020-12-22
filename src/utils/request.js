@@ -4,7 +4,7 @@ import { ElMessage } from 'element-plus';
 // 创建实例
 const instance = axios.create({
     baseURL: process.env.VUE_APP_API,    // 请求地址
-    timeout: 1000,  // 超时
+    timeout: 5000,  // 超时
 });
 
 // 拦截器
