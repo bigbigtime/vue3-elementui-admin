@@ -29,7 +29,7 @@
                     </el-row>
                 </el-form-item>
                 <el-form-item>
-                    <el-button type="danger" disabled class="el-button-block">{{ data.current_menu === "login" ? "登录": "注册"}}</el-button>
+                    <el-button type="danger" :disabled="data.submit_button_disabled" class="el-button-block">{{ data.current_menu === "login" ? "登录": "注册"}}</el-button>
                 </el-form-item>
             </el-form>
         </div>
@@ -136,7 +136,9 @@ export default {
             code_button_disabled: false,
             code_button_loading: false,
             code_button_text: "获取验证码",
-            code_button_timer: null
+            code_button_timer: null,
+            // 提交按钮
+            submit_button_disabled: true
         })
 
         // 获取验证码
@@ -177,10 +179,12 @@ export default {
             data.code_button_text = "发送中";
             GetCode(requestData).then(response => {
                 // 获取后端返回的数据
-                const data = response;   
+                const resData = response;   
+                // 激活提交按钮
+                data.submit_button_disabled = false;
                 // Elementui 提示
                 ctx.$message({
-                    message: data.message,
+                    message: resData.message,
                     type: "success"
                 })
                 // 执行倒计时
