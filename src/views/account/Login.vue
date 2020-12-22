@@ -44,6 +44,7 @@ import { reactive, ref, onMounted, watch, toRefs, getCurrentInstance } from 'vue
 import { validate_email, validate_password, validate_code  } from "../../utils/validate";
 // API
 import { GetCode } from "@/api/common";
+import { Register } from "@/api/account";
 export default {
     name: "Login",
     components: {},
@@ -107,8 +108,8 @@ export default {
 
         const data = reactive({
             form: {
-                username: "409019683@qq.com",      // 用户名
-                password: "wo123456",      // 密码
+                username: "",      // 用户名
+                password: "",      // 密码
                 passwords: "",     // 确认密码
                 code: "",          // 验证码
             },
@@ -221,12 +222,37 @@ export default {
         const submitForm = (formName) => {
             ctx.$refs.form.validate((valid) => {
                 if (valid) {
-                    alert('submit!');
+                    data.current_menu === "login" ? login() : register();
                 } else {
                     alert('表单验证不通过');
                     return false;
                 }
             });
+        }
+        /** 注册 */
+        const register = () => {
+            const requestData = {
+                username: data.form.username,
+                password: data.form.password,
+                code: data.form.code
+            }
+            console.log(requestData)
+            Register(requestData).then(response => {
+                ctx.$message({
+                    message: response.message,
+                    type: "success"
+                })
+                // 重置表单
+                ctx.$refs.form.resetFields();
+                // 切回登录模式
+                data.current_menu = "login";
+            }).catch(error => {
+                
+            })
+        }
+        /** 登录 */
+        const login = () => {
+            alert(222)
         }
         return {
             data,
