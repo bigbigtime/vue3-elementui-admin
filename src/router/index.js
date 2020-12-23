@@ -5,6 +5,7 @@ const routes = [
     path: "/",
     redirect: "Login"
   },
+  // 登录 
   {
     path: "/login",
     name: "Login",
