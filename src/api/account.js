@@ -7,4 +7,13 @@ export function Register(data = {}){
         data
     })
 }
+
+/** 登录 */
+export function Login(data = {}){
+    return instance.request({
+        method: "post",
+        url: "/login/",
+        data
+    })
+}
     

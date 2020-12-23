@@ -46,7 +46,7 @@ import { validate_email, validate_password, validate_code  } from "../../utils/v
 import sha1 from "js-sha1";
 // API
 import { GetCode } from "@/api/common";
-import { Register } from "@/api/account";
+import { Register, Login } from "@/api/account";
 export default {
     name: "Login",
     components: {},
@@ -247,6 +247,22 @@ export default {
                 reset();
             })
         }
+        /** 登录 */
+        const login = () => {
+            const requestData = {
+              username: data.form.username,
+              password: sha1(data.form.password),
+              code: data.form.code
+            }
+            Login(requestData).then(response => {
+              ctx.$message({
+                message: response.message,
+                type: "success"
+              })
+              reset();
+            })
+        }
+
         /** 重置 */
         const reset = () => {
             // 重置表单
@@ -262,10 +278,7 @@ export default {
             // 禁用提交按钮
             data.submit_button_disabled = true;              
         }
-        /** 登录 */
-        const login = () => {
-            alert(222)
-        }
+        
         return {
             data,
             handlerGetCode,
