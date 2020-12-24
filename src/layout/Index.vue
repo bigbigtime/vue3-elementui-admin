@@ -12,6 +12,7 @@
 import LayoutAside from "./components/Aside";
 import LayoutHeader from "./components/Header";
 import LayoutMain from "./components/Main";
+
 export default {
    name: "Layout",
    components: { LayoutAside, LayoutHeader, LayoutMain },
