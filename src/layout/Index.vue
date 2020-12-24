@@ -1,17 +1,20 @@
 <template>
     <el-container id="layout-container">
-        <el-aside id="layout-aside" width="250px">侧栏菜单</el-aside>
+        <el-aside id="layout-aside" width="250px"><layout-aside /></el-aside>
         <el-container>
-            <el-header id="layout-header" height="75px">头部信息</el-header>
-            <el-main id="layout-main">数据内容</el-main>
+            <el-header id="layout-header" height="75px"><layout-header /></el-header>
+            <el-main id="layout-main"><layout-main /></el-main>
         </el-container>
     </el-container>
 </template>
 
 <script>
+import LayoutAside from "./components/Aside";
+import LayoutHeader from "./components/Header";
+import LayoutMain from "./components/Main";
 export default {
    name: "Layout",
-   components: {},
+   components: { LayoutAside, LayoutHeader, LayoutMain },
    props: {},
    setup(props){
        return {}
