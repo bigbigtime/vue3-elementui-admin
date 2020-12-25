@@ -3,12 +3,16 @@ import { createRouter, createWebHashHistory, createWebHistory } from "vue-router
 const routes = [
   {
     path: "/",
-    redirect: "Login"
+    redirect: "Login",
+    hidden: true,
+    aaa: "",
+    bbb:""
   },
   // 登录 
   {
     path: "/login",
     name: "Login",
+    hidden: true,
     component: () => import("../views/account/Login.vue")
   },
   // 后台首页
