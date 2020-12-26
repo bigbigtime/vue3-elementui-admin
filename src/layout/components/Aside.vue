@@ -38,7 +38,6 @@ export default {
       const childRouter = children.filter(item => {
         return item.hidden ? false : true;
       })
-      console.log(childRouter)
       // 只有一个子级路由
       if(childRouter.length === 1) {
         return true;
