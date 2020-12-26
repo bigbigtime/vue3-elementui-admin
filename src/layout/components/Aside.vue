@@ -1,11 +1,14 @@
 <template>
-  <el-menu default-active="4" background-color="#344a5f" text-color="#fff" active-text-color="#ffd04b">
+  <el-menu default-active="4" background-color="#344a5f" text-color="#fff" active-text-color="#ffd04b" router>
     <template v-for="item in routers">
       <template v-if="!item.hidden">
         <!-- 一级菜单 -->
-        <el-menu-item v-if="hasOnlyChild(item.children)" :index="item.path" >
-          <template #title>{{ item.children[0].meta && item.children[0].meta.title }}</template>
-        </el-menu-item>
+        <template v-if="hasOnlyChild(item.children)">
+          <el-menu-item :index="item.children[0].path" >
+            <template #title>{{ item.children[0].meta && item.children[0].meta.title }}</template>
+          </el-menu-item>
+        </template>
+        
         
         <!-- 子级菜单 -->
         <el-submenu v-else :index="item.path" >
