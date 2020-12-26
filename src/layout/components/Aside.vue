@@ -8,9 +8,9 @@
         </el-menu-item>
         
         <!-- 子级菜单 -->
-        <el-submenu v-else :index="item.path" >
-          <template #title>{{ item.meta && item.meta.title }}</template>
-          <el-menu-item v-for="child in item.children" :index="child.path">{{ child.meta && child.meta.title }}</el-menu-item>
+        <el-submenu v-else index="1" >
+          <template #title>信息管理</template>
+          <el-menu-item index="1-4-1">信息列表</el-menu-item>
         </el-submenu>
       </template>
     </template>
@@ -24,11 +24,8 @@ export default {
   components: {},
   props: {},
   setup(){
-    console.log(useRouter());
     const { options } = useRouter();
     const routers = options.routes;
-    console.log(useRouter().getRoutes())
-    console.log(routers)
 
     return {
       routers
