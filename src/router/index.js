@@ -61,13 +61,13 @@ const routes = [
         component: () => import("../views/info/Category.vue"),
       },
       {
-        path: "/newsCategory",
-        name: "NewsCategory",
+        path: "/newsDetailed",
+        name: "NewsDetailed",
         hidden: true,
         meta: {
-          title: "信息分类"
+          title: "信息详情"
         },
-        component: () => import("../views/info/Category.vue"),
+        component: () => import("../views/info/Detailed.vue"),
       }
     ]
   },
