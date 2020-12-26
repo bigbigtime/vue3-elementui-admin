@@ -1,15 +1,13 @@
 <template>
-    <div class="">控制台</div>
-    <svg-icon></svg-icon>
+    <div>全局组件</div>
 </template>
 
 <script>
 export default {
-   name: 'NewsIndex',
+   name: 'SvgIcon',
    components: {},
    props: {},
    setup(props){
-      
        return {}
     }
 }

@@ -4,7 +4,8 @@
       <template v-if="!item.hidden">
         <!-- 一级菜单 -->
         <template v-if="hasOnlyChild(item.children)">
-          <el-menu-item :index="item.children[0].path" >
+          <el-menu-item :index="item.children[0].path">
+            <i :class="item.children[0].meta && item.children[0].meta.icon"></i>
             <template #title>{{ item.children[0].meta && item.children[0].meta.title }}</template>
           </el-menu-item>
         </template>

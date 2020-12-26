@@ -29,7 +29,8 @@ const routes = [
         path: "/console",
         name: "Console",
         meta: {
-          title: "首页"
+          title: "首页",
+          icon: "el-icon-platform-eleme"
         },
         component: () => import("../views/console/Index.vue"),
       }
@@ -48,7 +49,7 @@ const routes = [
         path: "/newsIndex",
         name: "NewsIndex",
         meta: {
-          title: "信息列表"
+          title: "信息列表",
         },
         component: () => import("../views/info/Index.vue"),
       },
