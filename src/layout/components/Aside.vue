@@ -3,8 +3,8 @@
     <template v-for="item in routers">
       <template v-if="!item.hidden">
         <!-- 一级菜单 -->
-        <el-menu-item v-if="!item.children" :index="item.path" >
-          <template #title>{{ item.meta && item.meta.title }}</template>
+        <el-menu-item v-if="hasOnlyChild(item.children)" :index="item.path" >
+          <template #title>{{ item.children[0].meta && item.children[0].meta.title }}</template>
         </el-menu-item>
         
         <!-- 子级菜单 -->
@@ -28,9 +28,24 @@ export default {
   setup(){
     const { options } = useRouter();
     const routers = options.routes;
+    // 判断是否只有一个子级菜单
+    const hasOnlyChild = (children) => {
+      // 存储路由
+      const childRouter = children.filter(item => {
+        return item.hidden ? false : true;
+      })
+      console.log(childRouter)
+      // 只有一个子级路由
+      if(childRouter.length === 1) {
+        return true;
+      }
+      // 否则
+      return false;
+    }
 
     return {
-      routers
+      routers,
+      hasOnlyChild
     }
   }
 };
