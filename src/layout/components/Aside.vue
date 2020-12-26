@@ -10,7 +10,9 @@
         <!-- 子级菜单 -->
         <el-submenu v-else :index="item.path" >
           <template #title>{{ item.meta && item.meta.title }}</template>
-          <el-menu-item v-for="child in item.children" :index="child.path">{{ child.meta && child.meta.title }}</el-menu-item>
+          <template v-for="child in item.children">
+            <el-menu-item v-if="!child.hidden" :index="child.path">{{ child.meta && child.meta.title }}</el-menu-item>
+          </template>
         </el-submenu>
       </template>
     </template>
@@ -24,11 +26,8 @@ export default {
   components: {},
   props: {},
   setup(){
-    console.log(useRouter());
     const { options } = useRouter();
     const routers = options.routes;
-    console.log(useRouter().getRoutes())
-    console.log(routers)
 
     return {
       routers
