@@ -1,16 +1,18 @@
 <template>
-    <div>全局组件</div>
+    <svg class="svg-class">
+        <use href="#icon-home"></use>
+    </svg>
 </template>
-
 <script>
 export default {
-   name: 'SvgIcon',
-   components: {},
-   props: {},
-   setup(props){
-       return {}
-    }
+    name: "SvgIcon",
+    props: {}
 }
 </script>
-<style lang="scss" scoped>
+<style lang="scss">
+.svg-class {
+    width: 1em;
+    height: 1em;
+    fill: currentColor;
+}
 </style>

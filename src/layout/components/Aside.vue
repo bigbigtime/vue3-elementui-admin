@@ -5,6 +5,7 @@
         <!-- 一级菜单 -->
         <template v-if="hasOnlyChild(item.children)">
           <el-menu-item :index="item.children[0].path">
+            <svg-icon></svg-icon>
             <i :class="item.children[0].meta && item.children[0].meta.icon"></i>
             <template #title>{{ item.children[0].meta && item.children[0].meta.title }}</template>
           </el-menu-item>
@@ -13,7 +14,9 @@
         
         <!-- 子级菜单 -->
         <el-submenu v-else :index="item.path" >
-          <template #title>{{ item.meta && item.meta.title }}</template>
+          <template #title>
+            <svg-icon></svg-icon>{{ item.meta && item.meta.title }}
+          </template>
           <template v-for="child in item.children">
             <el-menu-item v-if="!child.hidden" :index="child.path">{{ child.meta && child.meta.title }}</el-menu-item>
           </template>
