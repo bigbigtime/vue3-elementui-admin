@@ -21,7 +21,7 @@ const routes = [
     name: "Home",
     meta: {
       title: "控制台",
-      icon: "news"
+      icon: "home"
     },
     component: () => import("../layout/Index.vue"),
     children: [
@@ -29,8 +29,7 @@ const routes = [
         path: "/console",
         name: "Console",
         meta: {
-          title: "首页",
-          icon: "home"
+          title: "首页"
         },
         component: () => import("../views/console/Index.vue"),
       }

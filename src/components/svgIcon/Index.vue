@@ -1,12 +1,22 @@
 <template>
-    <svg class="svg-class">
-        <use href="#icon-home"></use>
+    <svg class="svg-class" aria-hidden="true">
+        <use :href="'#icon-' + iconName"></use>
     </svg>
 </template>
 <script>
 export default {
     name: "SvgIcon",
-    props: {}
+    props: {
+        iconName: {
+            type: String,
+            default: ""
+        },
+        className : {
+            type: String,
+            default: ""
+        }
+    },
+    setup(props){}
 }
 </script>
 <style lang="scss">
