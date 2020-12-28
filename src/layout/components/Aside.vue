@@ -5,7 +5,7 @@
         <!-- 一级菜单 -->
         <template v-if="hasOnlyChild(item.children)">
           <el-menu-item :index="item.children[0].path">
-            <svg-icon :icon-name="item.children[0].meta && item.children[0].meta.icon"></svg-icon>
+            <svg-icon :icon-name="item.meta && item.meta.icon"></svg-icon>
             <template #title>{{ item.children[0].meta && item.children[0].meta.title }}</template>
           </el-menu-item>
         </template>
