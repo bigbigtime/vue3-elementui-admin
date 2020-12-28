@@ -30,7 +30,7 @@ const routes = [
         name: "Console",
         meta: {
           title: "首页",
-          icon: "el-icon-platform-eleme"
+          icon: "home"
         },
         component: () => import("../views/console/Index.vue"),
       }
@@ -41,7 +41,7 @@ const routes = [
     name: "News",
     meta: {
       title: "信息管理",
-      icon: "news"
+      icon: "information"
     },
     component: () => import("../layout/Index.vue"),
     children: [
@@ -49,7 +49,7 @@ const routes = [
         path: "/newsIndex",
         name: "NewsIndex",
         meta: {
-          title: "信息列表",
+          title: "信息列表"
         },
         component: () => import("../views/info/Index.vue"),
       },
