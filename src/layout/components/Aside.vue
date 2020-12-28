@@ -6,7 +6,7 @@
         <template v-if="hasOnlyChild(item.children)">
           <el-menu-item :index="item.children[0].path">
             <template #title>
-              <svg-icon :icon-name="item.meta && item.meta.icon"></svg-icon>
+              <svg-icon :icon-name="item.meta && item.meta.icon" class-name="aside-menu-svg"></svg-icon>
               {{ item.children[0].meta && item.children[0].meta.title }}
             </template>
           </el-menu-item>
@@ -16,7 +16,7 @@
         <!-- 子级菜单 -->
         <el-submenu v-else :index="item.path" >
           <template #title>
-            <svg-icon :icon-name="item.meta && item.meta.icon"></svg-icon>
+            <svg-icon :icon-name="item.meta && item.meta.icon" class-name="aside-menu-svg"></svg-icon>
             {{ item.meta && item.meta.title }}
           </template>
           <template v-for="child in item.children">
@@ -50,10 +50,17 @@ export default {
       // 否则
       return false;
     }
+    const data = {
+      aaa: "11"
+    }
 
+    setTimeout(() => {
+      data.aaa = "222"
+    }, 3000)
     return {
       routers,
-      hasOnlyChild
+      hasOnlyChild,
+      data
     }
   }
 };

@@ -1,6 +1,6 @@
 <template>
-    <svg class="svg-class" aria-hidden="true">
-        <use :href="'#icon-' + iconName"></use>
+    <svg class="svg-class" :class="svgClassName">
+        <use href="#icon-home"></use>
     </svg>
 </template>
 <script>
@@ -16,7 +16,14 @@ export default {
             default: ""
         }
     },
-    setup(props){}
+    setup(props){
+        // 直接使用接收到的值
+        const svgClassName = props.className;
+        console.log(props.icon)
+        return {
+            svgClassName
+        }
+    }
 }
 </script>
 <style lang="scss">
