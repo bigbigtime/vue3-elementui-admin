@@ -19,7 +19,6 @@ export default {
     setup(props){
         // 直接使用接收到的值
         const svgClassName = props.className;
-        console.log(props.icon)
         return {
             svgClassName
         }

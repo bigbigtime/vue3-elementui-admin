@@ -50,17 +50,9 @@ export default {
       // 否则
       return false;
     }
-    const data = {
-      aaa: "11"
-    }
-
-    setTimeout(() => {
-      data.aaa = "222"
-    }, 3000)
     return {
       routers,
-      hasOnlyChild,
-      data
+      hasOnlyChild
     }
   }
 };
