@@ -10,6 +10,7 @@ import "@/js/svg";
 import SvgIcon from "@/components/svgIcon/Index.vue";
 // 赋值
 const app = createApp(App);
+app.config.globalProperties.$axios = "11";
 app
 .use(store)
 .use(router)

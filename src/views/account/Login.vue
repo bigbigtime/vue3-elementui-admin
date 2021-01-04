@@ -54,7 +54,8 @@ export default {
     setup(props){
         const instance = getCurrentInstance();
         // 获取实例上下文
-        const { ctx } = getCurrentInstance();
+        const { proxy } = getCurrentInstance();
+        console.log(instance)
         // 用户名校验
         const validate_name_rules = (rule, value, callback) => {
             let regEmail = validate_email(value);
@@ -152,7 +153,7 @@ export default {
             const passwords = data.form.passwords;
             // 校验用户名
             if(!username || !validate_email(username)) {
-                ctx.$message.error({
+                proxy.$message.error({
                     message: "用户名不能为空 或 格式不正确",
                     type: "error"
                 })
@@ -160,7 +161,7 @@ export default {
             }
             // 校验密码
             if(!password || !validate_password(password)) {
-                ctx.$message({
+                proxy.$message({
                     message: "密码不能为空 或 格式不正确",
                     type: "error"
                 })
@@ -168,7 +169,7 @@ export default {
             }
             // 判断非 登录 时，校验两次密码
             if(data.current_menu === 'register' && (password !== passwords)) {
-                ctx.$message({
+                proxy.$message({
                     message: "两次密码不一致",
                     type: "error"
                 })
@@ -187,7 +188,7 @@ export default {
                 // 激活提交按钮
                 data.submit_button_disabled = false; 
                 // Elementui 提示
-                ctx.$message({
+                proxy.$message({
                     message: resData.message,
                     type: "success"
                 })
@@ -222,7 +223,7 @@ export default {
 
         /** 表单提交 */
         const submitForm = (formName) => {
-            ctx.$refs.form.validate((valid) => {
+            proxy.$refs.form.validate((valid) => {
                 if (valid) {
                     data.current_menu === "login" ? login() : register();
                 } else {
@@ -240,7 +241,7 @@ export default {
             }
             console.log(requestData)
             Register(requestData).then(response => {
-                ctx.$message({
+                proxy.$message({
                     message: response.message,
                     type: "success"
                 })
@@ -255,7 +256,7 @@ export default {
               code: data.form.code
             }
             Login(requestData).then(response => {
-              ctx.$message({
+              proxy.$message({
                 message: response.message,
                 type: "success"
               })
@@ -266,7 +267,7 @@ export default {
         /** 重置 */
         const reset = () => {
             // 重置表单
-            ctx.$refs.form.resetFields();
+            proxy.$refs.form.resetFields();
             // 切回登录模式
             data.current_menu = "login";
             // 清除定时器
