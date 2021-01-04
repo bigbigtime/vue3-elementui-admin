@@ -4,7 +4,7 @@
     </svg>
 </template>
 <script>
-import { ref } from "vue";
+import { ref, computed } from "vue";
 export default {
     name: "SvgIcon",
     props: {
@@ -20,7 +20,7 @@ export default {
     setup(props){
         // 直接使用接收到的值
         const svgClassName = ref(props.className);
-        const svgIcon = ref(`#icon-${props.iconName}`);
+        const svgIcon = computed(() => `#icon-${props.iconName}`);
         return {
             svgClassName,
             svgIcon
