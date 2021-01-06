@@ -1,6 +1,5 @@
 <template>
     <div class="">控制台</div>
-    <svg-icon></svg-icon>
 </template>
 
 <script>
@@ -9,7 +8,6 @@ export default {
    components: {},
    props: {},
    setup(props){
-      
        return {}
     }
 }
