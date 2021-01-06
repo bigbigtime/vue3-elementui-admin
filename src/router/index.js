@@ -87,6 +87,14 @@ const routes = [
           title: "用户列表"
         },
         component: () => import("../views/user/Index.vue"),
+      },
+      {
+        path: "/aa",
+        name: "aa",
+        meta: {
+          title: "用户列表"
+        },
+        component: () => import("../views/user/Index.vue"),
       }
     ]
   }

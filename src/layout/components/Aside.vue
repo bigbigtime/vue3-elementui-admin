@@ -1,5 +1,5 @@
 <template>
-  <el-menu default-active="4" background-color="#344a5f" text-color="#fff" active-text-color="#ffffff" router>
+  <el-menu :default-active="currentPath" @open="openMenu" background-color="#344a5f" text-color="#fff" active-text-color="#ffffff" router>
     <template v-for="item in routers">
       <template v-if="!item.hidden">
         <!-- 一级菜单 -->
@@ -11,8 +11,6 @@
             </template>
           </el-menu-item>
         </template>
-        
-        
         <!-- 子级菜单 -->
         <el-submenu v-else :index="item.path" >
           <template #title>
@@ -29,13 +27,16 @@
 </template>
 
 <script>
-import { useRouter } from "vue-router";
+import { useRouter, useRoute } from "vue-router";
+import { computed } from "vue";
 export default {
   name: "Aside",
   components: {},
   props: {},
   setup(){
     const { options } = useRouter();
+    const { path } = useRoute();
+    console.log(useRoute())
     const routers = options.routes;
     // 判断是否只有一个子级菜单
     const hasOnlyChild = (children) => {
@@ -50,9 +51,12 @@ export default {
       // 否则
       return false;
     }
+    // 获取当前路由路径
+    const currentPath = computed(() => path);
     return {
       routers,
-      hasOnlyChild
+      hasOnlyChild,
+      currentPath
     }
   }
 };
