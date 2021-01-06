@@ -1,5 +1,6 @@
 <template>
-  <el-menu :default-active="currentPath" @open="openMenu" background-color="#344a5f" text-color="#fff" active-text-color="#ffffff" router>
+  <h1 class="logo"><img :src="logo" alt=""></h1>
+  <el-menu :default-active="currentPath" background-color="#344a5f" text-color="#fff" active-text-color="#ffffff" router>
     <template v-for="item in routers">
       <template v-if="!item.hidden">
         <!-- 一级菜单 -->
@@ -28,7 +29,7 @@
 
 <script>
 import { useRouter, useRoute } from "vue-router";
-import { computed } from "vue";
+import { reactive, computed, toRefs } from "vue";
 export default {
   name: "Aside",
   components: {},
@@ -36,9 +37,16 @@ export default {
   setup(){
     const { options } = useRouter();
     const { path } = useRoute();
-    console.log(useRoute())
     const routers = options.routes;
-    // 判断是否只有一个子级菜单
+    /**
+     * 数据
+     */
+    const data = reactive({
+      logo: require("@/assets/images/logo.png")
+    })
+    /**
+     * 判断是否只有一个子级菜单
+     */
     const hasOnlyChild = (children) => {
       // 存储路由
       const childRouter = children.filter(item => {
@@ -51,9 +59,12 @@ export default {
       // 否则
       return false;
     }
-    // 获取当前路由路径
+    /**
+     * 获取当前路由路径
+     */
     const currentPath = computed(() => path);
     return {
+      ...toRefs(data),
       routers,
       hasOnlyChild,
       currentPath
@@ -61,4 +72,10 @@ export default {
   }
 };
 </script>
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.logo {
+  padding: 20px 0;
+  border-bottom: 1px solid #2d4153;
+  img { margin: auto; }
+}
+</style>
