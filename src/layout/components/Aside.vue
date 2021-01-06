@@ -1,5 +1,5 @@
 <template>
-  <el-menu default-active="4" background-color="#344a5f" text-color="#fff" active-text-color="#ffd04b" router>
+  <el-menu default-active="4" background-color="#344a5f" text-color="#fff" active-text-color="#ffffff" router>
     <template v-for="item in routers">
       <template v-if="!item.hidden">
         <!-- 一级菜单 -->
