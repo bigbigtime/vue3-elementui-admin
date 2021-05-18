@@ -26,7 +26,7 @@ export default {
     props: {},
     setup(props){
         return {
-            form
+            
         }
     }
 }
