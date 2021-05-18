@@ -26,7 +26,7 @@
                     </el-row>
                 </el-form-item>
                 <el-form-item>
-                    <el-button type="danger" disabled class="el-button-block">立即创建</el-button>
+                    <el-button type="danger" disabled class="el-button-block">登录</el-button>
                 </el-form-item>
             </el-form>
         </div>
