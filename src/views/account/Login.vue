@@ -4,7 +4,7 @@
             <ul class="menu-tab">
                 <li @click="data.current_menu = item.type" :class="{'current': data.current_menu === item.type}" v-for="item in data.tab_menu" :key="item.type">{{ item.label }}</li>
             </ul>
-            <el-form ref="form" :model="data.form" :rules="data.form_rules">
+            <el-form ref="account_form" :model="data.form" :rules="data.form_rules">
                 <el-form-item prop="username">
                     <label class="form-label">用户名</label>
                     <el-input v-model="data.form.username"></el-input>
@@ -51,7 +51,7 @@ export default {
     setup(props){
         const instance = getCurrentInstance();
         // 获取实例上下文
-        const { ctx } = getCurrentInstance();
+        const { proxy } = getCurrentInstance();
         // 用户名校验
         const validate_name_rules = (rule, value, callback) => {
             let regEmail = validate_email(value);
@@ -149,7 +149,7 @@ export default {
             const passwords = data.form.passwords;
             // 校验用户名
             if(!username || !validate_email(username)) {
-                ctx.$message.error({
+                proxy.$message.error({
                     message: "用户名不能为空 或 格式不正确",
                     type: "error"
                 })
@@ -157,7 +157,7 @@ export default {
             }
             // 校验密码
             if(!password || !validate_password(password)) {
-                ctx.$message({
+                proxy.$message({
                     message: "密码不能为空 或 格式不正确",
                     type: "error"
                 })
@@ -165,7 +165,7 @@ export default {
             }
             // 判断非 登录 时，校验两次密码
             if(data.current_menu === 'register' && (password !== passwords)) {
-                ctx.$message({
+                proxy.$message({
                     message: "两次密码不一致",
                     type: "error"
                 })
@@ -184,7 +184,7 @@ export default {
                 // 激活提交按钮
                 data.submit_button_disabled = false; 
                 // Elementui 提示
-                ctx.$message({
+                proxy.$message({
                     message: resData.message,
                     type: "success"
                 })
@@ -219,7 +219,7 @@ export default {
 
         /** 表单提交 */
         const submitForm = (formName) => {
-            ctx.$refs.form.validate((valid) => {
+            proxy.$refs.account_form.validate((valid) => {
                 if (valid) {
                     alert('submit!');
                 } else {
