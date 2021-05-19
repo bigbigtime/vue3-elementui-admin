@@ -37,9 +37,9 @@
 </template>
 
 <script>
-import { reactive, ref, onMounted, watch, toRefs } from 'vue';
+import { reactive, getCurrentInstance } from 'vue';
 // 校验类
-import { validate_email, validate_password, validate_code  } from "../../utils/validate";
+import { validate_email, validate_password, validate_code } from "../../utils/validate";
 export default {
     name: "Login",
     components: {},
