@@ -218,8 +218,9 @@ export default {
         }
 
         /** 表单提交 */
+        const account_form = ref(null);
         const submitForm = (formName) => {
-            proxy.$refs.account_form.validate((valid) => {
+            account_form.value.validate((valid) => {
                 if (valid) {
                     alert('submit!');
                 } else {
@@ -228,10 +229,13 @@ export default {
                 }
             });
         }
+
+        
         return {
             data,
             handlerGetCode,
-            submitForm
+            submitForm,
+            account_form
         }
     }
 }
