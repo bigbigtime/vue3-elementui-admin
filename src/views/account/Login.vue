@@ -45,6 +45,11 @@ export default {
     components: {},
     props: {},
     setup(props){
+        const instance = getCurrentInstance();
+        const { ctx } = getCurrentInstance();
+        console.log(instance);
+        console.log(ctx)
+
         // 用户名校验
         const validate_name_rules = (rule, value, callback) => {
             let regEmail = validate_email(value);
