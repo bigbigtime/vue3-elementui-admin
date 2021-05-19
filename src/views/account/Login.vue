@@ -42,7 +42,7 @@ export default {
     name: "Login",
     components: {},
     props: {},
-    setup(props){
+    setup(props, context){
         const validate_name_rules = (rule, value, callback) => {
             const regEmail = /^([a-zA-Z]|[0-9])(\w|\-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/;
             if (value === '') {
@@ -54,41 +54,35 @@ export default {
             }
         }
         const validate_password_rules = (rule, value, callback) => {
-            const regEmail = /^(?!\D+$)(?![^a-zA-Z]+$)\S{6,20}$/;
-            // 获取“确认密码”
-            const passwordsValue = data.form.passwords;
+            const regPassword = /^(?!\D+$)(?![^a-zA-Z]+$)\S{6,20}$/;
             if (value === '') {
                 callback(new Error("请输入密码"));
-            } else if(!regEmail.test(value)) {
+            } else if(!regPassword.test(value)) {
                 callback(new Error("请输入>=6并且<=20位的密码，包含数字、字母"));
-            } else if(passwordsValue && passwordsValue !== value){
-                callback(new Error("两次密码不一致"));
-            } else {
+            }  else {
                 callback();
             }
         }
         // 校验确认密码
         const validate_passwords_rules = (rule, value, callback) => {
-            // 如果是登录，不需要校验确认密码，默认通过
-            if(data.current_menu === "login") { callback(); }
-            const regEmail = /^(?!\D+$)(?![^a-zA-Z]+$)\S{6,20}$/;
+            const regPassword = /^(?!\D+$)(?![^a-zA-Z]+$)\S{6,20}$/;
             // 获取“密码”
             const passwordValue = data.form.password;
             if (value === '') {
                 callback(new Error("请输入密码"));
-            } else if(!regEmail.test(value)) {
+            } else if(!regPassword.test(value)) {
                 callback(new Error("请输入>=6并且<=20位的密码，包含数字、字母"));
-            } else if(passwordValue !== value){
+            } else if(passwordValue && passwordValue !== value){
                 callback(new Error("两次密码不一致"));
             }else {
                 callback();
             }
         }
         const validate_code_rules = (rule, value, callback) => {
-            const regEmail = /^[a-z0-9]{6}$/;
+            const regCode = /^[a-z0-9]{6}$/;
             if (value === '') {
                 callback(new Error("请输入验证码"));
-            } else if(!regEmail.test(value)) {
+            } else if(!regCode.test(value)) {
                 callback(new Error("请输入6位的验证码"));
             } else {
                 callback();
