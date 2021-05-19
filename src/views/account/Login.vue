@@ -37,7 +37,7 @@
 </template>
 
 <script>
-import { reactive, ref, onMounted, watch, toRefs, getCurrentInstance } from 'vue';
+import { reactive, onBeforeUnmount, getCurrentInstance } from 'vue';
 // 校验类
 import { validate_email, validate_password, validate_code  } from "../../utils/validate";
 // API
@@ -203,6 +203,10 @@ export default {
               }
             }, 1000)
         }
+        // 组件销毁之前 - 生命周期
+        onBeforeUnmount(() => {
+            clearInterval(data.code_button_timer);     // 清除倒计时
+        })
         return {
             data,
             handlerGetCode
