@@ -12,6 +12,6 @@ export function validate_password(value){
 
 // 校验验证码
 export function validate_code(value){
-    let regPassword = /^[a-z0-9]{6}$/;
-    return regPassword.test(value);
+    let regCode = /^[a-z0-9]{6}$/;
+    return regCode.test(value);
 }
