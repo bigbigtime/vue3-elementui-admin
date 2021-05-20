@@ -23,7 +23,17 @@ const routes = [
       title: "控制台",
       icon: "news"
     },
-    component: () => import("../layout/Index.vue")
+    component: () => import("../layout/Index.vue"),
+    children: [
+      {
+        path: "/console",
+        name: "Console",
+        meta: {
+          title: "首页"
+        },
+        component: () => import("../views/console/Index.vue"),
+      }
+    ]
   },
   {
     path: "/news",
