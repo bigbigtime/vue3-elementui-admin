@@ -1,28 +1,28 @@
 <template>
   <el-menu default-active="4" background-color="#344a5f" text-color="#fff" active-text-color="#ffd04b" router>
-    <template v-for="item in routers">
+    <template v-for="item in routers" :key="item.path">
       <template v-if="!item.hidden">
         <!-- 一级菜单 -->
         <template v-if="hasOnlyChild(item.children)">
           <el-menu-item :index="item.children[0].path">
-            <template #title>
-              <svg-icon :icon-name="item.meta && item.meta.icon" class-name="aside-menu-svg"></svg-icon>
-              {{ item.children[0].meta && item.children[0].meta.title }}
-            </template>
+            <svg-icon :icon-name="item.meta && item.meta.icon" class-name="aside-menu-svg"></svg-icon>
+            <template #title>{{ item.children[0].meta && item.children[0].meta.title }}</template>
           </el-menu-item>
         </template>
         
         
         <!-- 子级菜单 -->
-        <el-submenu v-else :index="item.path" >
-          <template #title>
-            <svg-icon :icon-name="item.meta && item.meta.icon" class-name="aside-menu-svg"></svg-icon>
-            {{ item.meta && item.meta.title }}
-          </template>
-          <template v-for="child in item.children">
-            <el-menu-item v-if="!child.hidden" :index="child.path">{{ child.meta && child.meta.title }}</el-menu-item>
-          </template>
-        </el-submenu>
+        <template v-else>
+          <el-submenu v-if="item.children && item.children.length > 0" :index="item.path" >
+            <template #title>
+              <svg-icon :icon-name="item.meta && item.meta.icon" class-name="aside-menu-svg"></svg-icon>
+              {{ item.meta && item.meta.title }}
+            </template>
+            <template v-for="child in item.children" :key="child.path">
+              <el-menu-item v-if="!child.hidden" :index="child.path">{{ child.meta && child.meta.title }}</el-menu-item>
+            </template>
+          </el-submenu>
+        </template>
       </template>
     </template>
   </el-menu>
@@ -39,6 +39,7 @@ export default {
     const routers = options.routes;
     // 判断是否只有一个子级菜单
     const hasOnlyChild = (children) => {
+      if(!children) { return false; }
       // 存储路由
       const childRouter = children.filter(item => {
         return item.hidden ? false : true;
