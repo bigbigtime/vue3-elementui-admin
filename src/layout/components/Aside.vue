@@ -1,6 +1,6 @@
 <template>
   <el-menu default-active="4" background-color="#344a5f" text-color="#fff" active-text-color="#ffd04b">
-    <template v-for="item in routers">
+    <template v-for="item in routers" :key="item.path">
       <template v-if="!item.hidden">
         <!-- 一级菜单 -->
         <el-menu-item v-if="!item.children" :index="item.path" >
