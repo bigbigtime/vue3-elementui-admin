@@ -17,7 +17,7 @@ const routes = [
     name: "Home",
     meta: {
       title: "控制台",
-      icon: "news"
+      icon: "console"
     },
     component: () => import("../layout/Index.vue")
   },
