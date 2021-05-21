@@ -28,7 +28,7 @@ export default {
 #layout-header {
     position: relative;
     z-index: 10;
-    background-color: #fff;
+    background-color: $color_main;
     @include webkit(box-shadow, 0 0 10px 0 rgba(0, 0, 0, .5));
 }
 
