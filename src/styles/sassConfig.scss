@@ -1,0 +1,8 @@
+@mixin webkit($attr, $value){
+    -webkit-#{$attr}: $value;
+    -moz-#{$attr}: $value;
+    -o-#{$attr}: $value;
+    -ms-#{$attr}: $value;
+    #{$attr}: $value;
+}
+    
