@@ -1,24 +1,18 @@
 <template>
     <div class="">控制台</div>
-    <svg-icon :icon-name="icon"></svg-icon>
 </template>
 
 <script>
-import { ref } from "vue";
+import { useStore } from 'vuex'
 export default {
     name: 'NewsIndex',
     components: {},
     props: {},
     setup(props){
-        const icon = ref("home");
-        setTimeout(() => {
-            icon.value = "user";
-        }, 3000)
-        return {
-            icon
-        }
+        const store = useStore();
+        console.log("计算后的结果:" + store.getters["app/getCount"]);
+        console.log("原始结果:" + store.state.app.count);
     }
-
 }
 </script>
 <style lang="scss" scoped>
