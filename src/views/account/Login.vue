@@ -40,6 +40,7 @@
 
 <script>
 import { reactive, ref, onMounted, watch, toRefs, getCurrentInstance } from 'vue';
+import { useStore } from "vuex";
 // 校验类
 import { validate_email, validate_password, validate_code  } from "../../utils/validate";
 // sha1
@@ -55,7 +56,8 @@ export default {
         const instance = getCurrentInstance();
         // 获取实例上下文
         const { proxy } = getCurrentInstance();
-        console.log(instance)
+        // store
+        const store = useStore();
         // 用户名校验
         const validate_name_rules = (rule, value, callback) => {
             let regEmail = validate_email(value);
@@ -255,12 +257,20 @@ export default {
               password: sha1(data.form.password),
               code: data.form.code
             }
+            store.dispatch("app/loginAction", requestData).then(response => {
+                proxy.$message({
+                    message: response.message,
+                    type: "success"
+                })
+                reset();
+            }).catch(error => {
+                console.log("失败");
+            })
+
+
+
             Login(requestData).then(response => {
-              proxy.$message({
-                message: response.message,
-                type: "success"
-              })
-              reset();
+              
             })
         }
 

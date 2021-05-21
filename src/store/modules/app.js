@@ -19,14 +19,17 @@ const mutations = {
     }
 }
 const actions = {
-    update_count(context){
-        console.log(context);
-        context.commit("SET_COUNT");
-    },
-    update_text({ commit }, playload){
-        commit("SET_TEXT", playload);
+    loginAction(context, repuestData) {
+        return new Promise((resolve, reject) => {
+            Login(repuestData).then((response) => { 
+                resolve(response);
+            }).catch(error => {
+                reject(error);
+            })
+        })
     }
 }
+    
     
 
 export default {
