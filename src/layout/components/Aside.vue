@@ -1,7 +1,7 @@
 <template>
   <h1 class="logo"><img :src="logo" alt=""></h1>
-  <el-menu :default-active="currentPath" background-color="#344a5f" text-color="#fff" active-text-color="#ffffff" router>
-    <template v-for="item in routers">
+  <el-menu :collapse="collapse" :default-active="currentPath" background-color="#344a5f" text-color="#fff" active-text-color="#ffffff" router>
+    <template v-for="item in routers" :key="item.path">
       <template v-if="!item.hidden">
         <!-- 一级菜单 -->
         <template v-if="hasOnlyChild(item.children)">
@@ -30,6 +30,7 @@
 <script>
 import { useRouter, useRoute } from "vue-router";
 import { reactive, computed, toRefs } from "vue";
+import { useStore } from "vuex";
 export default {
   name: "Aside",
   components: {},
@@ -37,13 +38,16 @@ export default {
   setup(){
     const { options } = useRouter();
     const { path } = useRoute();
+    const store = useStore();
     const routers = options.routes;
     /**
      * 数据
      */
     const data = reactive({
-      logo: require("@/assets/images/logo.png")
+      logo: require("@/assets/images/logo.png"),
+      collapse: computed(() => store.state.app.collapse)
     })
+
     /**
      * 判断是否只有一个子级菜单
      */
