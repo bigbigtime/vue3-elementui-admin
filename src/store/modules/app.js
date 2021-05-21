@@ -18,8 +18,16 @@ const mutations = {
         state.text = playload;
     }
 }
+const actions = {
+    update_count(context){
+        console.log(context);
+        context.commit("SET_COUNT");
+    },
+    update_text({ commit }, playload){
+        commit("SET_TEXT", playload);
+    }
+}
     
-const actions = {};
 
 export default {
     namespaced: true,
