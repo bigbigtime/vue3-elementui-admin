@@ -26,8 +26,6 @@ export default {
 #layout-container { height: 100vh; }
 #layout-aside { background-color: #344a5f; }
 #layout-header {
-    display: flex;
-    align-items: center;
     position: relative;
     z-index: 10;
     background-color: $color_main;
