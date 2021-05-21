@@ -1,8 +1,9 @@
 import { createStore } from "vuex";
-
+// 引用模块文件
+import app from "./modules/app";
+// 创建Vuex
 export default createStore({
-  state: {},
-  mutations: {},
-  actions: {},
-  modules: {}
+  modules: { // 模块化
+    app       // 载入 app 模块
+  }
 });
