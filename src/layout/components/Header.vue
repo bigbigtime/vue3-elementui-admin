@@ -1,12 +1,12 @@
 <template>
-  <el-row class="row-wrap">
-    <el-col :span="12">
+  <div class="header-wrap">
+    <div class="wrap">
       <span class="menu-btn">
         <svg-icon iconName="menuBtn" className="icon-menu-svg"></svg-icon>
       </span>
-    </el-col>
-    <el-col :span="12">用户头像</el-col>
-  </el-row>
+    </div>
+    <div class="wrap">用户头像</div>
+  </div>
 </template>
 
 <script>
@@ -20,7 +20,13 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.row-wrap { width: 100%; }
+.header-wrap {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  .wrap { flex: 1; }
+}
 .menu-btn { cursor: pointer; } // 手势
 .icon-menu-svg { font-size: 24px; }
 </style>
