@@ -10,8 +10,9 @@ export default {
     props: {},
     setup(props){
         const store = useStore();
-        console.log("计算后的结果:" + store.getters["app/getCount"]);
-        console.log("原始结果:" + store.state.app.count);
+        console.log("原始结果:" + store.state.app.text);
+        store.commit("app/SET_TEXT", "正在学习vue3+elementPlus");
+        console.log("修改后的结果:" + store.state.app.text);
     }
 }
 </script>
