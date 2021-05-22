@@ -44,7 +44,9 @@ export default {
      * 数据
      */
     const data = reactive({
-      logo: require("@/assets/images/logo.png"),
+      logo: computed(() => {
+        return store.state.app.collapse ? require("@/assets/images/logo-min.png") : require("@/assets/images/logo.png")
+      }),
       collapse: computed(() => store.state.app.collapse)
     })
 
