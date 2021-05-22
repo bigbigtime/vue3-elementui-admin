@@ -1,7 +1,7 @@
 <template>
   <div class="header-wrap">
     <div class="wrap">
-      <span class="menu-btn">
+      <span class="menu-btn" @click="switchAside">
         <svg-icon iconName="menuBtn" className="icon-menu-svg"></svg-icon>
       </span>
     </div>
@@ -20,12 +20,18 @@
 </template>
 
 <script>
+import { useStore } from "vuex";
 export default {
   name: "Header",
   components: {},
   props: {},
   setup(){
-      return {}
+      const store = useStore();
+      const switchAside = (() => {
+        store.commit('app/SET_COLLAPSE');
+      })
+      return { switchAside }
+
   }
 };
 </script>

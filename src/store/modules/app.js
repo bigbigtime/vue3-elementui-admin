@@ -3,9 +3,10 @@ const state = {
 };
 const getters = {}
 const mutations = {
-    SET_AA(state){
-        state.collapse = !state.collapse
+    SET_COLLAPSE(state){
+        state.collapse = !state.collapse;
     }
+        
 }
 const actions = {}
 export default {
