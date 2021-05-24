@@ -260,14 +260,11 @@ export default {
               password: sha1(data.form.password),
               code: data.form.code
             }
-            Login(requestData).then(response => {
+            store.dispatch("app/loginAction", requestData).then(response => {
                 proxy.$message({
                     message: response.message,
                     type: "success"
                 })
-                //写入cookies
-                store.commit('app/SET_TOKEN', response.data.token);
-                store.commit('app/SET_USERNAME', response.data.username);
                 //路由跳转
                 rotuer.push({path: "/console"});
                 reset();

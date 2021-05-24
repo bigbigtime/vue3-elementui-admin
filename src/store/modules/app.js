@@ -1,5 +1,7 @@
 //cookies
 import { setToken, setUsername } from "@/utils/cookies";
+// api
+import { Login } from "@/api/account";
 const state = {
     collapse: JSON.parse(sessionStorage.getItem('collapse')) || false,
     token: "",
@@ -22,7 +24,22 @@ const mutations = {
         setUsername(value);
     }
 }
-const actions = {}
+const actions = {
+    loginAction(context, repuestData) {
+        return new Promise((resolve, reject) => {
+            Login(repuestData).then((response) => {
+                let data = response.data;
+                console.log(2222)
+                context.commit('SET_TOKEN', data.token);
+                context.commit('SET_USERNAME', data.username);
+                resolve(response);
+            }).catch(error => {
+                reject(error);
+            })
+        })
+    }
+        
+}
 export default {
     namespaced: true,
     state,
