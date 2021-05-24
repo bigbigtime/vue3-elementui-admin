@@ -41,6 +41,7 @@
 <script>
 import { reactive, ref, onMounted, watch, toRefs, getCurrentInstance } from 'vue';
 import { useStore } from "vuex";
+import { useRouter } from "vue-router";
 // 校验类
 import { validate_email, validate_password, validate_code  } from "../../utils/validate";
 // sha1
@@ -58,6 +59,8 @@ export default {
         const { proxy } = getCurrentInstance();
         // store
         const store = useStore();
+        // router
+        const rotuer = useRouter();
         // 用户名校验
         const validate_name_rules = (rule, value, callback) => {
             let regEmail = validate_email(value);
@@ -262,15 +265,14 @@ export default {
                     message: response.message,
                     type: "success"
                 })
+                //写入cookies
+                store.commit('app/SET_TOKEN', response.data.token);
+                store.commit('app/SET_USERNAME', response.data.username);
+                //路由跳转
+                rotuer.push({path: "/console"});
                 reset();
             }).catch(error => {
                 console.log("失败");
-            })
-
-
-
-            Login(requestData).then(response => {
-              
             })
         }
 
