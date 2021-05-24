@@ -257,7 +257,7 @@ export default {
               password: sha1(data.form.password),
               code: data.form.code
             }
-            store.dispatch("app/loginAction", requestData).then(response => {
+            Login(requestData).then(response => {
                 proxy.$message({
                     message: response.message,
                     type: "success"
