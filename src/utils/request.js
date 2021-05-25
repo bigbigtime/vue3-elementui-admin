@@ -1,8 +1,6 @@
 import axios from "axios";
 // ElementUI 单独引入
 import { ElMessage } from 'element-plus';
-// vue-router
-import router from "@/router";
 // cookies
 import { getToken, getUsername, removeToken, removeUsername } from "./cookies";  // 这是封装好的方法
 // 创建实例
@@ -33,14 +31,6 @@ instance.interceptors.response.use(function (response) {
             message: data.message,
             type: "error"
         })
-        // token失效自动退出
-        if(data.resCode === 1040) {
-            router.replace({
-                name: "Login"
-            })
-            removeToken();
-            removeUsername();
-        }
         return Promise.reject(data);
     }
 }, function (error) {
