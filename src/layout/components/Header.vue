@@ -9,7 +9,7 @@
       <div class="user-info">
         <div class="face-info">
           <img src="../../assets/images/logo-min.png" alt="409019683@qq.com">
-          <span class="name">409019683@qq.com </span>
+          <span class="name">{{ username }}</span>
         </div>
         <span class="logout">
           <svg-icon iconName="logout" className="icon-logout"></svg-icon>
@@ -20,17 +20,22 @@
 </template>
 
 <script>
+import { ref } from "vue";
 import { useStore } from "vuex";
 export default {
   name: "Header",
   components: {},
   props: {},
   setup(){
-      const store = useStore();
-      const switchAside = (() => {
-        store.commit('app/SET_COLLAPSE');
-      })
-      return { switchAside }
+    const store = useStore();
+    const switchAside = (() => {
+      store.commit('app/SET_COLLAPSE');
+    })
+    const username = ref(store.state.app.username);
+    return { 
+      switchAside,
+      username
+    }
 
   }
 };

@@ -1,11 +1,11 @@
 //cookies
-import { setToken, setUsername } from "@u/cookies";
+import { setToken, setUsername, getUsername, getToken } from "@u/cookies";
 // api
 import { Login } from "@a/account";
 const state = {
     collapse: JSON.parse(sessionStorage.getItem('collapse')) || false,
-    token: "",
-    username: ""
+    token: "" || getToken(),
+    username: "" || getUsername()
 };
 const getters = {}
 const mutations = {

@@ -11,7 +11,7 @@ export function setToken(value){ Cookies.set(tokenKey, value); }
 export function removeToken(){ Cookies.remove(tokenKey); }
 
 // 获取userName
-export function getUsernam(){ return Cookies.get(userNameKey); }
+export function getUsername(){ return Cookies.get(userNameKey); }
 // 写入userName
 export function setUsername(value){ Cookies.set(userNameKey, value); }
 // 删除userName
