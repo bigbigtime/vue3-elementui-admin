@@ -2,6 +2,8 @@ import { createApp } from "vue";
 import App from "./App.vue";
 import router from "./router";
 import store from "./store";
+// 守卫路由
+import "./router/permit";
 // elementui
 import ElementUI from "./plugins/elementui";
 // 批量导入svg文件
