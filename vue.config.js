@@ -23,6 +23,16 @@ module.exports = {
 
   },
   configureWebpack: (config) => {
+    config.resolve = { // 配置解析别名
+    extensions: ['.js', '.json', '.vue'],  // 自动添加文件名后缀
+    alias: {
+        '@': path.resolve(__dirname, './src'),
+        '@u': path.resolve(__dirname, './src/utils'),
+        '@a': path.resolve(__dirname, './src/api'),
+        '@c': path.resolve(__dirname, './src/components')
+      }
+    }
+      
     //关闭 webpack 的性能提示
     config.performance = {
       hints:false
