@@ -1,4 +1,4 @@
-import { ElSlider, ElButton, ElSwitch, ElForm, ElFormItem, ElInput, ElCol , ElRow, ElMessage, ElContainer, ElAside, ElHeader,ElMain, ElMenu, ElMenuItem, ElSubmenu} from 'element-plus';
+import { ElSlider, ElButton, ElSwitch, ElForm, ElFormItem, ElInput, ElCol , ElRow, ElMessage, ElMessageBox, ElContainer, ElAside, ElHeader,ElMain, ElMenu, ElMenuItem, ElSubmenu} from 'element-plus';
 
 export default (app) => {
     app.use(ElButton);
@@ -9,6 +9,7 @@ export default (app) => {
     app.use(ElCol);
     app.use(ElRow);
     app.use(ElMessage);
+    app.use(ElMessageBox);
     app.use(ElContainer);
     app.use(ElAside);
     app.use(ElHeader);

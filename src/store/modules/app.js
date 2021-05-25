@@ -1,7 +1,7 @@
 //cookies
-import { setToken, setUsername, getUsername, getToken } from "@u/cookies";
+import { setToken, setUsername, getUsername, getToken, removeToken, removeUsername } from "@u/cookies";
 // api
-import { Login } from "@a/account";
+import { Login, Logout } from "@a/account";
 const state = {
     collapse: JSON.parse(sessionStorage.getItem('collapse')) || false,
     token: "" || getToken(),
@@ -37,8 +37,20 @@ const actions = {
                 reject(error);
             })
         })
+    },
+    // 登出
+    logoutAction({ commit }){
+        return new Promise((resolve, reject) => {
+            Logout().then(response => {
+                removeToken();
+                removeUsername();
+                commit('SET_TOKEN', '');
+                commit('SET_USERNAME', '');
+                resolve(response);
+            })
+            
+        })
     }
-        
 }
 export default {
     namespaced: true,

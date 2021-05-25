@@ -11,7 +11,7 @@
           <img src="../../assets/images/logo-min.png" alt="409019683@qq.com">
           <span class="name">{{ username }}</span>
         </div>
-        <span class="logout">
+        <span class="logout" @click="handlerLogout">
           <svg-icon iconName="logout" className="icon-logout"></svg-icon>
         </span>
       </div>
@@ -20,23 +20,48 @@
 </template>
 
 <script>
-import { ref } from "vue";
+import { ref, getCurrentInstance } from "vue";
 import { useStore } from "vuex";
+import { useRouter } from "vue-router";
 export default {
   name: "Header",
   components: {},
   props: {},
   setup(){
+    // 获取实例上下文
+    const { proxy } = getCurrentInstance();
+    // 获取Vuex
     const store = useStore();
-    const switchAside = (() => {
-      store.commit('app/SET_COLLAPSE');
-    })
+    // 引入router
+    const { replace } = useRouter();
+    // 菜单按钮
+    const switchAside = (() => { store.commit('app/SET_COLLAPSE'); })
+    // 用户名
     const username = ref(store.state.app.username);
+    // 登出
+    const handlerLogout = (() => {  
+      proxy.$confirm('确认退出管理后台', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        store.dispatch('app/logoutAction').then(response => {
+          proxy.$message({
+            message: response.message,
+            type: "success"
+          })
+          replace({
+            name: "Login"
+          })
+        })
+      }).catch(error => {});
+    }) 
+
     return { 
       switchAside,
-      username
+      username,
+      handlerLogout
     }
-
   }
 };
 </script>

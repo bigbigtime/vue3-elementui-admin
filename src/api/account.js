@@ -16,4 +16,13 @@ export function Login(data = {}){
         data
     })
 }
+
+/** 登出 */
+export function Logout(data = {}){
+    return instance.request({
+        method: "post",
+        url: "/logout/",
+        data
+    })
+}
     

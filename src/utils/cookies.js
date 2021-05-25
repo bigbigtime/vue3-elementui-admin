@@ -15,4 +15,4 @@ export function getUsername(){ return Cookies.get(userNameKey); }
 // 写入userName
 export function setUsername(value){ Cookies.set(userNameKey, value); }
 // 删除userName
-export function removeUsernam(){ Cookies.remove(userNameKey); }
+export function removeUsername(){ Cookies.remove(userNameKey); }
