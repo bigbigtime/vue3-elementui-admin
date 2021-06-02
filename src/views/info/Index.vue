@@ -34,6 +34,26 @@
             </template>
         </el-table-column>
     </el-table>
+    <el-row class="margin-top-30">
+        <el-col :span="6">
+            <el-button size="small">批量删除</el-button>
+        </el-col>
+        <el-col :span="18">
+            <el-pagination 
+            class="pull-right" 
+            sizs="small" 
+            background 
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+            :current-page="data.currentPage"
+            :page-size="10"
+            :page-sizes="[10, 20, 50, 100]"
+            layout="total, sizes, prev, pager, next, jumper"
+            :total="100">
+            </el-pagination>
+        </el-col>
+    </el-row>
+
 </template>
 
 <script>
@@ -53,14 +73,22 @@ export default {
             tableData: [
                 { name: '王小虎', address: '上海市普陀区金沙江路 1518 弄', date: "2020-06-05 12:00:00" },
                 { name: '王小虎', address: '上海市普陀区金沙江路 1518 弄', date: "2020-06-05 12:00:00" }
-            ]
+            ],
+            // 分页
+            currentPage: 1
         });
 
         // 多选事件
         const handleSelectionChange = (val) => {}
+        // 分页
+        const handleSizeChange = (val) => {}
+        const handleCurrentChange = (val) => {}
+
         return {
             data,
-            handleSelectionChange
+            handleSelectionChange,
+            handleSizeChange,
+            handleCurrentChange
         }
     }
 }

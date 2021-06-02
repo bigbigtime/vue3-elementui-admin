@@ -1,5 +1,6 @@
-import { ElSlider, ElButton, ElSwitch, ElForm, ElFormItem, ElInput, ElSelect, ElCol , ElRow, ElMessage, ElMessageBox, ElContainer, ElAside, ElHeader,ElMain, ElMenu, ElMenuItem, ElSubmenu, ElOption, ElTable, ElTableColumn} from 'element-plus';
+import { ElSlider, ElButton, ElSwitch, ElForm, ElFormItem, ElInput, ElSelect, ElCol , ElRow, ElMessage, ElMessageBox, ElContainer, ElAside, ElHeader,ElMain, ElMenu, ElMenuItem, ElSubmenu, ElOption, ElTable, ElTableColumn, ElPagination} from 'element-plus';
 
+// 导出
 export default (app) => {
     app.use(ElButton);
     app.use(ElSwitch);
@@ -21,5 +22,6 @@ export default (app) => {
     app.use(ElSelect);
     app.use(ElOption);
     app.use(ElTable);
-    app.use(ElTableColumn);
+    app.use(ElTableColumn, ElPagination);
+    app.use(ElPagination);
 }

@@ -6,6 +6,7 @@ import store from "./store";
 import "./router/permit";
 // elementui
 import ElementUI from "./plugins/elementui";
+
 // 批量导入svg文件
 import "@/js/svg";
 // svgicon
