@@ -1,5 +1,8 @@
 import { ElSlider, ElButton, ElSwitch, ElForm, ElFormItem, ElInput, ElSelect, ElCol , ElRow, ElMessage, ElMessageBox, ElContainer, ElAside, ElHeader,ElMain, ElMenu, ElMenuItem, ElSubmenu, ElOption, ElTable, ElTableColumn, ElPagination} from 'element-plus';
-
+// 设置语言
+import lang from 'element-plus/lib/locale/lang/zh-cn';
+import locale from 'element-plus/lib/locale';
+locale.use(lang)
 // 导出
 export default (app) => {
     app.use(ElButton);
