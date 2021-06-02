@@ -3,7 +3,9 @@
         <el-col :span="18">
             <el-form :inline="true" label-width="80px">
                 <el-form-item label="类别">
-                    <el-select placeholder="请选择" class="width-160"></el-select>
+                    <el-select v-model="data.category" placeholder="请选择" class="width-160">
+                        <el-option v-for="item in data.category_options" :key="item.value" :value="item.value" :label="item.label"></el-option>
+                    </el-select>
                 </el-form-item>
                 <el-form-item label="关键字">
                     <el-select placeholder="请选择" class="width-100"></el-select>
@@ -23,13 +25,23 @@
 </template>
 
 <script>
+import { reactive } from 'vue'
 export default {
-   name: 'NewsIndex',
-   components: {},
-   props: {},
-   setup(props){
-      
-       return {}
+    name: 'NewsIndex',
+    components: {},
+    props: {},
+    setup(props){
+        const data = reactive({
+            category: 0,
+            category_options: [
+                { label: "人工智能", value: 0 },
+                { label: "技术", value: 1 }
+            ]
+        });
+
+        return {
+            data
+        }
     }
 }
 </script>
