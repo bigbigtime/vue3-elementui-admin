@@ -1,5 +1,10 @@
 <template>
-    <div class="">信息列表页</div>
+    <el-row>
+      <el-col :span="18">筛选区</el-col>
+      <el-col :span="6">
+        <el-button type="danger">新增</el-button>
+      </el-col>
+    </el-row>
 </template>
 
 <script>
