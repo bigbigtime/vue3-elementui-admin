@@ -39,5 +39,5 @@ export default {
     background-color: $color_main;
     @include webkit(box-shadow, 0 0 10px 0 rgba(0, 0, 0, .5));
 }
-#layout-main { background-color: #bc77a1; }
+#layout-main { background-color: #f7f7f7; }
 </style>
