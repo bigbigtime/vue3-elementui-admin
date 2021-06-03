@@ -65,7 +65,7 @@ export default {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    font-size: 14px;
     padding-right: 8px;
 }
+::v-deep .el-tree-node__content { height: auto; }
 </style>
