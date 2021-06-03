@@ -3,7 +3,18 @@
     <hr class="spacing-hr" />
     <el-row>
         <el-col :span="6">
-            <el-tree :data="data.tree_data" :props="data.defaultProps" @node-click="handleNodeClick" default-expand-all></el-tree>
+            <el-tree :data="data.tree_data" :props="data.defaultProps" @node-click="handleNodeClick" default-expand-all>
+                <template #default="{ node, data }">
+                    <div class="custom-tree-node">
+                        <span>{{ node.label }}</span>
+                        <span>
+                            <el-button size="mini" type="danger" round>添加子级</el-button>
+                            <el-button size="mini" type="success" round>编辑</el-button>
+                            <el-button size="mini" round>删除</el-button>
+                        </span>
+                    </div>
+                </template>
+            </el-tree>
         </el-col>
         <el-col :span="18">输入框</el-col>
     </el-row>
@@ -48,5 +59,13 @@ export default {
     border: none; // 设置无边框
     border-top: 1px solid #e9e9e9; // 底部1像素，实线边框，颜色为 e9e9e9
     margin:30px 0; // 上下边距为30像素，左右为0
+}
+.custom-tree-node {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 14px;
+    padding-right: 8px;
 }
 </style>
