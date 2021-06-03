@@ -2,19 +2,44 @@
     <el-button type="danger">添加一级分类</el-button>
     <hr class="spacing-hr" />
     <el-row>
-        <el-col :span="6">树状菜单</el-col>
+        <el-col :span="6">
+            <el-tree :data="data.tree_data" :props="data.defaultProps" @node-click="handleNodeClick" default-expand-all></el-tree>
+        </el-col>
         <el-col :span="18">输入框</el-col>
     </el-row>
 </template>
 
 <script>
+import { reactive } from 'vue'
 export default {
-   name: 'NewsIndex',
-   components: {},
-   props: {},
-   setup(props){
-      
-       return {}
+    name: 'InfoCategory',
+    components: {},
+    props: {},
+    setup(props){
+        const data = reactive({
+            tree_data: [
+                {
+                    label: '一级 1',
+                    children: [{
+                        label: '二级 1-1',
+                        children: [{
+                            label: '三级 1-1-1'
+                        }]
+                    }]
+                }
+            ],
+            defaultProps: {
+                children: 'children',
+                label: 'label'
+            }
+        })
+        const handleNodeClick = (data) => {
+            console.log(data)
+        }
+        return {
+            data,
+            handleNodeClick
+        }
     }
 }
 </script>
