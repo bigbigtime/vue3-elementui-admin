@@ -3,7 +3,7 @@
     <hr class="spacing-hr" />
     <el-row>
         <el-col :span="6">
-            <el-tree :data="data.tree_data" :props="data.defaultProps" @node-click="handleNodeClick" default-expand-all>
+            <el-tree :data="data.tree_data" :props="data.defaultProps" @node-click="handleNodeClick" default-expand-all :expand-on-click-node="false">
                 <template #default="{ node, data }">
                     <div class="custom-tree-node">
                         <span>{{ node.label }}</span>
