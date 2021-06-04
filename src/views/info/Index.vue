@@ -19,7 +19,9 @@
             </el-form>
         </el-col>
         <el-col :span="6">
-            <el-button type="danger" class="pull-right">新增</el-button>
+            <router-link to="/newsDetailed" class="pull-right">
+                <el-button type="danger">新增</el-button>
+            </router-link>
         </el-col>
     </el-row>
     <el-table ref="table" border :data="data.tableData" style="width: 100%" @selection-change="handleSelectionChange">
@@ -29,7 +31,7 @@
         <el-table-column prop="date" label="日期"></el-table-column>
         <el-table-column prop="address" label="操作" width="200">
             <template #default="scope">
-                <el-button type="danger" size="mini">编辑</el-button>
+                <el-button type="danger" size="mini" @click="handlerDetailed">编辑</el-button>
                 <el-button size="mini">删除</el-button>
             </template>
         </el-table-column>
@@ -57,12 +59,15 @@
 </template>
 
 <script>
-import { reactive } from 'vue'
+import { useRouter } from "vue-router";
+import{ reactive } from "vue";
 export default {
     name: 'NewsIndex',
     components: {},
     props: {},
     setup(props){
+        // router
+        const { push } = useRouter();
         const data = reactive({
             category: 0,
             category_options: [
@@ -83,12 +88,18 @@ export default {
         // 分页
         const handleSizeChange = (val) => {}
         const handleCurrentChange = (val) => {}
-
+        // 详情页
+        const handlerDetailed = () => {
+            push({
+                path: "/newsDetailed"
+            })
+        }
         return {
             data,
             handleSelectionChange,
             handleSizeChange,
-            handleCurrentChange
+            handleCurrentChange,
+            handlerDetailed
         }
     }
 }
