@@ -8,7 +8,18 @@
         <el-form-item label="信息标题：">
             <el-input v-model="data.title"></el-input>
         </el-form-item>
-        <el-form-item label="缩略图："></el-form-item>
+        <el-form-item label="缩略图：">
+            <el-upload
+                class="avatar-uploader"
+                action="https://jsonplaceholder.typicode.com/posts/"
+                :show-file-list="false"
+                :on-success="handleAvatarSuccess"
+                :before-upload="beforeAvatarUpload"
+            >
+                <img v-if="imageUrl" :src="imageUrl" class="avatar">
+                <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+            </el-upload>
+        </el-form-item>
         <el-form-item label="发布日期："></el-form-item>
         <el-form-item label="内容："></el-form-item>
         <el-form-item>
@@ -37,3 +48,7 @@ export default {
     }
 }
 </script>
+<style lang="scss" scoped>
+
+
+</style>
