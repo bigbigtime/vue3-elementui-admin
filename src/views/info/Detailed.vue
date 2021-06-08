@@ -50,15 +50,15 @@ export default {
             ]
         })
         const editor = ref();
-        let instance = null;
+        let editor_instance = null;
         onMounted(() => {
-            instance = new WangEditor(editor.value);
-            Object.assign(instance.config, {
+            editor_instance = new WangEditor(editor.value);
+            Object.assign(editor_instance.config, {
                 onchange() {
                     console.log('change');
                 },
             });
-            instance.create();
+            editor_instance.create();
         })
         return { data, editor }
     }
