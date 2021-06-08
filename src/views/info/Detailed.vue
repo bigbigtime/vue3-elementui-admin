@@ -23,16 +23,19 @@
         <el-form-item label="发布日期：">
             <el-date-picker v-model="data.date" type="datetime" placeholder="选择日期时间"></el-date-picker>
         </el-form-item>
-        <el-form-item label="内容："></el-form-item>
+        <el-form-item label="内容：">
+            <div ref="editor"></div>
+        </el-form-item>
         <el-form-item>
             <el-button type="danger">确定</el-button>
         </el-form-item>
     </el-form>
 </template>
 <script>
-import { reactive } from "vue";
+import { reactive, ref, onMounted } from "vue";
+import WangEditor from 'wangeditor';
 export default {
-    name: 'NewsIndex',
+    name: 'InfoDetailed',
     components: {},
     props: {},
     setup(props){
@@ -46,7 +49,18 @@ export default {
                 { label: "技术", value: 1 }
             ]
         })
-        return { data }
+        const editor = ref();
+        let instance = null;
+        onMounted(() => {
+            instance = new WangEditor(editor.value);
+            Object.assign(instance.config, {
+                onchange() {
+                    console.log('change');
+                },
+            });
+            instance.create();
+        })
+        return { data, editor }
     }
 }
 </script>
