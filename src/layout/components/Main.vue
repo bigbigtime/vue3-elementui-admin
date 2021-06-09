@@ -10,7 +10,7 @@ export default {
   components: {},
   props: {},
   setup(){
-      return {}
+  return {}
   }
 };
 </script>

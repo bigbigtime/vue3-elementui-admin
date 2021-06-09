@@ -17,16 +17,16 @@
             </el-tree>
         </el-col>
         <el-col :span="17">
-            <h4 class="column">分类名称</h4>
+            <h4 class="column">{{ config.title }}</h4>
             <el-form label-width="100px">
                 <el-form-item label="父级分类：">
-                    <el-input style="width: 20%;"></el-input>
+                    <el-input v-model="data.parent_category" :disabled="config.parent_disabled" style="width: 20%;"></el-input>
                 </el-form-item>
-                <el-form-item label="子级分类：">
-                    <el-input style="width: 20%;"></el-input>
+                <el-form-item label="子级分类：" v-if="config.sub_show">
+                    <el-input v-model="data.sub_category" :disabled="config.sub_disabled" style="width: 20%;"></el-input>
                 </el-form-item>
                 <el-form-item label="">
-                    <el-button type="danger">确定</el-button>
+                    <el-button type="danger" :loading="data.button_loading">确定</el-button>
                 </el-form-item>
             </el-form>
         </el-col>
@@ -55,14 +55,26 @@ export default {
             defaultProps: {
                 children: 'children',
                 label: 'label'
-            }
+            },
+            parent_category: "",   // 父级分类
+            sub_category: "",      // 子级分类
+            button_loading: false  // 按钮加载
         })
+        const config = reactive({
+            type: "default",
+            title: "添加分类",        // 标题
+            parent_disabled: true,   // 父级分类禁用/启用
+            sub_disabled: true,      // 子级分类禁用/启用
+            sub_show: true           // 子级分类显示/隐藏
+        });
+
         const handleNodeClick = (data) => {
             console.log(data)
         }
         return {
             data,
-            handleNodeClick
+            handleNodeClick,
+            config
         }
     }
 }
