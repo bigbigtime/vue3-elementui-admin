@@ -1,5 +1,5 @@
 <template>
-    <el-button type="danger">添加一级分类</el-button>
+    <el-button type="danger" @click="handlerCategory('first_category_add')">添加一级分类</el-button>
     <hr class="spacing-hr" />
     <el-row :gutter="20">
         <el-col :span="7">
@@ -67,15 +67,24 @@ export default {
                 parent_disabled: true,   // 父级分类禁用/启用
                 sub_disabled: true,      // 子级分类禁用/启用
                 sub_show: true           // 子级分类显示/隐藏
+            },
+            first_category_add: {
+                title: "一级分类添加",    // 标题
+                parent_disabled: false,   // 父级分类禁用/启用
+                sub_disabled: true,      // 子级分类禁用/启用
+                sub_show: false           // 子级分类显示/隐藏
             }
         });
-
         const handleNodeClick = (data) => {
             console.log(data)
+        }
+        const handlerCategory = (type) => {
+            config.type = type;
         }
         return {
             data,
             handleNodeClick,
+            handlerCategory,
             config
         }
     }
