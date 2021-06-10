@@ -34,8 +34,8 @@
 </template>
 
 <script>
-import { reactive, getCurrentInstance } from 'vue';
-import { firstCategoryAdd } from "@/api/info";
+import { reactive, getCurrentInstance, onBeforeMount } from 'vue';
+import { firstCategoryAdd, GetCategory } from "@/api/info";
 export default {
     name: 'InfoCategory',
     components: {},
@@ -44,20 +44,10 @@ export default {
         // 获取实例上下文
         const { proxy } = getCurrentInstance();
         const data = reactive({
-            tree_data: [
-                {
-                    label: '一级 1',
-                    children: [{
-                        label: '二级 1-1',
-                        children: [{
-                            label: '三级 1-1-1'
-                        }]
-                    }]
-                }
-            ],
+            tree_data: [],
             defaultProps: {
                 children: 'children',
-                label: 'label'
+                label: 'category_name'
             },
             parent_category: "父级分类文本演示",   // 父级分类
             sub_category: "子级分类文本演示",      // 子级分类
@@ -148,6 +138,14 @@ export default {
                 data.button_loading = false;
             })
         }
+        const handlerGetCategory = () => {
+            GetCategory().then(response => {
+                data.tree_data = response.data;
+            })
+        }
+        onBeforeMount(() => {
+            handlerGetCategory();
+        })
         return {
             data,
             handleNodeClick,
