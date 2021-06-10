@@ -9,7 +9,7 @@
                         <span>{{ node.label }}</span>
                         <span>
                             <el-button size="mini" type="danger" round class="button-mini" @click="handlerCategory('child_category_add')">添加子级</el-button>
-                            <el-button size="mini" type="success" round class="button-mini">编辑</el-button>
+                            <el-button size="mini" type="success" round class="button-mini" @click="handlerCategory('child_category_edit')">编辑</el-button>
                             <el-button size="mini" round class="button-mini">删除</el-button>
                         </span>
                     </div>
@@ -60,27 +60,39 @@ export default {
             sub_category: "",      // 子级分类
             button_loading: false  // 按钮加载
         })
-        const config = reactive({
-            type: "default",
-            default: {
-                title: "添加分类",        // 标题
-                parent_disabled: true,   // 父级分类禁用/启用
-                sub_disabled: true,      // 子级分类禁用/启用
-                sub_show: true           // 子级分类显示/隐藏
-            },
-            first_category_add: {
-                title: "一级分类添加",    // 标题
-                parent_disabled: false,   // 父级分类禁用/启用
-                sub_disabled: true,      // 子级分类禁用/启用
-                sub_show: false           // 子级分类显示/隐藏
-            },
-            child_category_add: {
-                title: "子级分类添加",    // 标题
-                parent_disabled: true,   // 父级分类禁用/启用
-                sub_disabled: false,      // 子级分类禁用/启用
-                sub_show: true     
-            }
-        });
+    const config = reactive({
+        type: "default",
+        default: {
+            title: "添加分类",        // 标题
+            parent_disabled: true,   // 父级分类禁用/启用
+            sub_disabled: true,      // 子级分类禁用/启用
+            sub_show: true           // 子级分类显示/隐藏
+        },
+        first_category_add: {
+            title: "一级分类添加",    // 标题
+            parent_disabled: false,   // 父级分类禁用/启用
+            sub_disabled: true,      // 子级分类禁用/启用
+            sub_show: false           // 子级分类显示/隐藏
+        },
+        child_category_add: {
+            title: "子级分类添加",    // 标题
+            parent_disabled: true,   // 父级分类禁用/启用
+            sub_disabled: false,      // 子级分类禁用/启用
+            sub_show: true     
+        },
+        parent_category_edit: {
+            title: "父级分类编辑",    // 标题
+            parent_disabled: false,   // 父级分类禁用/启用
+            sub_disabled: true,      // 子级分类禁用/启用
+            sub_show: false     
+        },
+        child_category_edit: {
+            title: "子级分类编辑",    // 标题
+            parent_disabled: true,   // 父级分类禁用/启用
+            sub_disabled: false,      // 子级分类禁用/启用
+            sub_show: true     
+        }
+    });
         const handleNodeClick = (data) => {
             console.log(data)
         }
