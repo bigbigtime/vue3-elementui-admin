@@ -20,13 +20,13 @@
             <h4 class="column">{{ config[config.type].title }}</h4>
             <el-form label-width="100px">
                 <el-form-item label="父级分类：">
-                    <el-input v-model="data.parent_category" :disabled="config[config.type].parent_disabled" style="width: 20%;"></el-input>
+                    <el-input v-model.trim="data.parent_category" :disabled="config[config.type].parent_disabled" style="width: 20%;"></el-input>
                 </el-form-item>
                 <el-form-item label="子级分类：" v-if="config[config.type].sub_show">
-                    <el-input v-model="data.sub_category" :disabled="config[config.type].sub_disabled" style="width: 20%;"></el-input>
+                    <el-input v-model.trim="data.sub_category" :disabled="config[config.type].sub_disabled" style="width: 20%;"></el-input>
                 </el-form-item>
                 <el-form-item label="">
-                    <el-button type="danger" :loading="data.button_loading">确定</el-button>
+                    <el-button type="danger" :loading="data.button_loading" @click="handlerSubmit">确定</el-button>
                 </el-form-item>
             </el-form>
         </el-col>
@@ -34,12 +34,15 @@
 </template>
 
 <script>
-import { reactive } from 'vue'
+import { reactive, getCurrentInstance } from 'vue';
+import { firstCategoryAdd } from "@/api/info";
 export default {
     name: 'InfoCategory',
     components: {},
     props: {},
     setup(props){
+        // 获取实例上下文
+        const { proxy } = getCurrentInstance();
         const data = reactive({
             tree_data: [
                 {
@@ -122,10 +125,34 @@ export default {
                 })
             }
         }
+        // 
+        const handlerSubmit = () => {
+            if(config.type === 'first_category_add') { handlerFirstCategoryAdd(); }
+        }
+        // 一级分类添加
+        const handlerFirstCategoryAdd = () => {
+            // 父级为空时提示
+            if(!data.parent_category) {
+                proxy.$message.error("父级分类不能为空");
+                return false
+            }
+            data.button_loading = true;
+            firstCategoryAdd({categoryName: data.parent_category}).then(response => {
+                data.button_loading = false;
+                proxy.$message({
+                    message: response.message,
+                    type: "success"
+                })
+                data.parent_category = "";
+            }).catch(error => {
+                data.button_loading = false;
+            })
+        }
         return {
             data,
             handleNodeClick,
             handlerCategory,
+            handlerSubmit,
             config
         }
     }
