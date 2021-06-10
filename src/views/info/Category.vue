@@ -67,5 +67,5 @@ export default {
     justify-content: space-between;
     padding-right: 8px;
 }
-::v-deep .el-tree-node__content { height: auto; }
+::v-deep(.el-tree-node__content) { height: auto; }
 </style>
