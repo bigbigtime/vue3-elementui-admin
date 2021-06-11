@@ -35,7 +35,7 @@
 
 <script>
 import { reactive, getCurrentInstance, onBeforeMount } from 'vue';
-import { firstCategoryAdd, GetCategory, childCategoryAdd } from "@/api/info";
+import { firstCategoryAdd, GetCategory, ChildCategoryAdd } from "@/api/info";
 export default {
     name: 'InfoCategory',
     components: {},
@@ -94,7 +94,6 @@ export default {
         //     console.log(data)
         // }
         const handlerCategory = (type, parent_data) => {
-            // 父级分类存储
             data.parent_category_data = parent_data || null;
             config.type = type;
             // 文本清除、还原
@@ -121,6 +120,7 @@ export default {
         // 
         const handlerSubmit = () => {
             if(config.type === 'first_category_add') { handlerFirstCategoryAdd(); }
+            if(config.type === 'child_category_add') { handlerChildCategoryAdd(); }
         }
         // 一级分类添加
         const handlerFirstCategoryAdd = () => {
@@ -144,6 +144,34 @@ export default {
         const handlerGetCategory = () => {
             GetCategory().then(response => {
                 data.tree_data = response.data;
+            })
+        }
+        // 子级分类添加
+        const handlerChildCategoryAdd = () => {
+            // 子级为空时提示
+            if(!data.sub_category) {
+                proxy.$message.error("子级分类不能为空");
+                return false
+            }
+            // 按钮加载状态
+            data.button_loading = true;
+            // 接口
+            ChildCategoryAdd({
+                categoryName: data.sub_category,           // 分类名称参数
+                parentId: data.parent_category_data.id     // 父级分类ID参数
+            }).then(response => {
+                // 清除加载状态
+                data.button_loading = false;
+                // 成功提示
+                proxy.$message({
+                    message: response.message,
+                    type: "success"
+                })
+                // 清除子级分类文本
+                data.sub_category = "";
+            }).catch(error => {
+                // 清除加载状态
+                data.button_loading = false;
             })
         }
         onBeforeMount(() => {

@@ -18,7 +18,7 @@ export function GetCategory(data = {}){
 }
 
 /** 子级分类添加 */
-export function childCategoryAdd(data = {}){
+export function ChildCategoryAdd(data = {}){
     return instance.request({
         method: "post",
         url: "/news/addChildrenCategory/",
