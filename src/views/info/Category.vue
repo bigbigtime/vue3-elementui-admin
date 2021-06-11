@@ -94,6 +94,7 @@ export default {
         //     console.log(data)
         // }
         const handlerCategory = (type, parent_data) => {
+            console.log(parent_data);
             // 父级分类存储
             data.parent_category_data = parent_data || null;
             config.type = type;
