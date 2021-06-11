@@ -3,12 +3,12 @@
     <hr class="spacing-hr" />
     <el-row :gutter="20">
         <el-col :span="7">
-            <el-tree :data="data.tree_data" :props="data.defaultProps" @node-click="handleNodeClick" default-expand-all :expand-on-click-node="false">
+            <el-tree :data="data.tree_data" :props="data.defaultProps" default-expand-all :expand-on-click-node="false">
                 <template #default="{ node, data }">
                     <div class="custom-tree-node">
                         <span>{{ node.label }}</span>
                         <span>
-                            <el-button size="mini" type="danger" round class="button-mini" @click="handlerCategory('child_category_add')">添加子级</el-button>
+                            <el-button size="mini" type="danger" round class="button-mini" @click="handlerCategory('child_category_add', data)">添加子级</el-button>
                             <el-button size="mini" type="success" round class="button-mini" @click="handlerCategory('child_category_edit')">编辑</el-button>
                             <el-button size="mini" round class="button-mini">删除</el-button>
                         </span>
@@ -35,7 +35,7 @@
 
 <script>
 import { reactive, getCurrentInstance, onBeforeMount } from 'vue';
-import { firstCategoryAdd, GetCategory } from "@/api/info";
+import { firstCategoryAdd, GetCategory, childCategoryAdd } from "@/api/info";
 export default {
     name: 'InfoCategory',
     components: {},
@@ -51,7 +51,8 @@ export default {
             },
             parent_category: "父级分类文本演示",   // 父级分类
             sub_category: "子级分类文本演示",      // 子级分类
-            button_loading: false  // 按钮加载
+            button_loading: false,  // 按钮加载
+            parent_category_data: null
         })
         const config = reactive({
             type: "default",
@@ -89,10 +90,12 @@ export default {
                 sub_show: true     
             }
         });
-        const handleNodeClick = (data) => {
-            console.log(data)
-        }
-        const handlerCategory = (type) => {
+        // const handleNodeClick = (data) => {
+        //     console.log(data)
+        // }
+        const handlerCategory = (type, parent_data) => {
+            // 父级分类存储
+            data.parent_category_data = parent_data || null;
             config.type = type;
             // 文本清除、还原
             handlerInputValue();
@@ -111,7 +114,7 @@ export default {
             // 执行还原动作
             if(createObject && createObject.length > 0) {
                 createObject.forEach(item => {
-                    data[item] = "11";
+                    data[item] = 11;
                 })
             }
         }
@@ -148,7 +151,7 @@ export default {
         })
         return {
             data,
-            handleNodeClick,
+            // handleNodeClick,
             handlerCategory,
             handlerSubmit,
             config
