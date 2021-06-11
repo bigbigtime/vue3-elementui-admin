@@ -94,7 +94,6 @@ export default {
         //     console.log(data)
         // }
         const handlerCategory = (type, parent_data) => {
-            console.log(parent_data);
             // 父级分类存储
             data.parent_category_data = parent_data || null;
             config.type = type;
@@ -115,7 +114,7 @@ export default {
             // 执行还原动作
             if(createObject && createObject.length > 0) {
                 createObject.forEach(item => {
-                    data[item] = 11;
+                    data[item] = data[`${item}_data`].category_name;
                 })
             }
         }
