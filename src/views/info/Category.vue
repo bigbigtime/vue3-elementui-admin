@@ -95,6 +95,7 @@ export default {
         // }
         const handlerCategory = (type, parent_data) => {
             data.parent_category_data = parent_data || null;
+            console.log(data.parent_category_data);
             config.type = type;
             // 文本清除、还原
             handlerInputValue();
@@ -137,6 +138,8 @@ export default {
                     type: "success"
                 })
                 data.parent_category = "";
+                // 刷新树形菜单数据
+                handlerGetCategory();
             }).catch(error => {
                 data.button_loading = false;
             })
@@ -169,6 +172,9 @@ export default {
                 })
                 // 清除子级分类文本
                 data.sub_category = "";
+                // 追加子级数据
+                data.parent_category_data.children.push(response.data);
+                data.tree_data = [...data.tree_data];
             }).catch(error => {
                 // 清除加载状态
                 data.button_loading = false;
