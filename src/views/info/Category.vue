@@ -8,7 +8,7 @@
                     <div class="custom-tree-node">
                         <span>{{ node.label }}</span>
                         <span>
-                            <el-button size="mini" type="danger" round class="button-mini">添加子级</el-button>
+                            <el-button size="mini" type="danger" round class="button-mini" @click="handlerCategory('child_category_add')">添加子级</el-button>
                             <el-button size="mini" type="success" round class="button-mini">编辑</el-button>
                             <el-button size="mini" round class="button-mini">删除</el-button>
                         </span>
@@ -73,7 +73,14 @@ export default {
                 parent_disabled: false,   // 父级分类禁用/启用
                 sub_disabled: true,      // 子级分类禁用/启用
                 sub_show: false           // 子级分类显示/隐藏
+            },
+            child_category_add: {
+                title: "子级分类添加",     // 标题
+                parent_disabled: true,   // 父级分类输入框禁用
+                sub_disabled: false,      // 子级分类输入框启用
+                sub_show: true             // 子级分类显示
             }
+
         });
         const handleNodeClick = (data) => {
             console.log(data)
