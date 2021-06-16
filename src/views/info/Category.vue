@@ -56,8 +56,8 @@ export default {
                 children: 'children',
                 label: 'label'
             },
-            parent_category: "",   // 父级分类
-            sub_category: "",      // 子级分类
+            parent_category: "父级分类文本演示",   // 父级分类
+            sub_category: "子级分类文本演示",      // 子级分类
             button_loading: false  // 按钮加载
         })
         const config = reactive({
@@ -72,7 +72,8 @@ export default {
                 title: "一级分类添加",    // 标题
                 parent_disabled: false,   // 父级分类禁用/启用
                 sub_disabled: true,      // 子级分类禁用/启用
-                sub_show: false           // 子级分类显示/隐藏
+                sub_show: false,           // 子级分类显示/隐藏
+                clear: ["parent_category", "sub_category"]
             },
             child_category_add: {
                 title: "子级分类添加",    // 标题
@@ -99,7 +100,20 @@ export default {
         const handlerCategory = (type, node) => {
             console.log(type);
             config.type = type;
+            // 文本清除、还原
+            handlerInputValue();
         }
+        const handlerInputValue = () => {
+            // 获取清除数据的对象
+            const clearObject = config[config.type].clear;
+            // 执行清除动作
+            if(clearObject && clearObject.length > 0) {
+                clearObject.forEach(item => {
+                    data[item] = "";
+                })
+            }
+        }
+
         return {
             data,
             handleNodeClick,
