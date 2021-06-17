@@ -102,7 +102,7 @@ export default {
         const handleNodeClick = (data) => {
             console.log(data)
         }
-        const handlerCategory = (type, node) => {
+        const handlerCategory = (type, node_data) => {
             config.type = type;
             // 文本清除、还原
             handlerInputValue();
