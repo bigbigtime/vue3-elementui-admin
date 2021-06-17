@@ -8,7 +8,7 @@
                     <div class="custom-tree-node">
                         <span>{{ node.label }}</span>
                         <span>
-                            <el-button size="mini" type="danger" round class="button-mini" @click="handlerCategory('child_category_add', data)">添加子级</el-button>
+                            <el-button size="mini" type="danger" round class="button-mini" @click="handlerCategory('child_category_add', node)">添加子级</el-button>
                             <el-button size="mini" type="success" round class="button-mini" @click="handlerCategory(node.level === 1 ? 'parent_category_edit' : 'child_category_edit', node)">编辑</el-button>
                             <el-button size="mini" round class="button-mini">删除</el-button>
                         </span>
@@ -114,7 +114,7 @@ export default {
             // 执行还原动作
             if(createObject && createObject.length > 0) {
                 createObject.forEach(item => {
-                    data[item] = data[`${item}_data`].category_name;
+                    data[item] = data[`${item}_data`].data.category_name;
                 })
             }
         }
