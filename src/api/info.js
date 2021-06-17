@@ -25,3 +25,12 @@ export function ChildCategoryAdd(data = {}){
         data
     })
 }
+
+export function CategoryEdit(data = {}){
+    return instance.request({
+        method: "post",
+        url: "/news/editCategory/",
+        data
+    })
+}
+    

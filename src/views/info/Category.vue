@@ -35,7 +35,7 @@
 
 <script>
 import { reactive, getCurrentInstance, onBeforeMount } from 'vue';
-import { firstCategoryAdd, GetCategory, ChildCategoryAdd } from "@/api/info";
+import { firstCategoryAdd, GetCategory, ChildCategoryAdd, CategoryEdit } from "@/api/info";
 export default {
     name: 'InfoCategory',
     components: {},
@@ -131,6 +131,7 @@ export default {
         const handlerSubmit = () => {
             if(config.type === 'first_category_add') { handlerFirstCategoryAdd(); }
             if(config.type === 'child_category_add') { handlerChildCategoryAdd(); }
+            if(config.type === 'child_category_edit' || config.type === 'parent_category_edit') { handlerCategoryEdit(); }
         }
         // 一级分类添加
         const handlerFirstCategoryAdd = () => {
@@ -179,6 +180,39 @@ export default {
                 })
                 // 清除子级分类文本
                 data.sub_category = "";
+            }).catch(error => {
+                // 清除加载状态
+                data.button_loading = false;
+            })
+        }
+        // 分类编辑
+        const handlerCategoryEdit = () => {
+            // 分级为空时提示
+            if(!data.sub_category || !data.parent_category) {
+                const message = config.type === "parent_category_edit" ? "父级" : "子级";
+                proxy.$message.error(`${message}分类不能为空`);
+                return false
+            }
+            // 按钮加载状态
+            data.button_loading = true;
+            // 接口
+            CategoryEdit({
+                categoryName: config.type === "parent_category_edit" ? data.parent_category : data.sub_category,           // 分类名称参数
+                id: config.type === "parent_category_edit" ? data.parent_category_data.id : data.sub_category_data.id      // 分类ID参数
+            }).then(response => {
+                // 清除加载状态
+                data.button_loading = false;
+                // 成功提示
+                proxy.$message({
+                    message: response.message,
+                    type: "success"
+                })
+                // 同步更新树形菜单节点
+                if(config.type === "parent_category_edit") {
+                    data.parent_category_data.category_name = data.parent_category;
+                }else{
+                    data.sub_category_data.category_name = data.sub_category;
+                }
             }).catch(error => {
                 // 清除加载状态
                 data.button_loading = false;
