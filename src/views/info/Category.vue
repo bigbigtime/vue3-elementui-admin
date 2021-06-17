@@ -95,7 +95,7 @@ export default {
         // }
         const categoryTree = ref(null);
         const handlerCategory = (type, node_data) => {
-            data.parent_category_data = node_data.data || null;
+            data.parent_category_data = node_data || null;
             config.type = type;
             // 文本清除、还原
             handlerInputValue();
@@ -114,7 +114,7 @@ export default {
             // 执行还原动作
             if(createObject && createObject.length > 0) {
                 createObject.forEach(item => {
-                    data[item] = data[`${item}_data`].category_name;
+                    data[item] = data[`${item}_data`].data.category_name;
                 })
             }
         }
@@ -161,7 +161,7 @@ export default {
             // 接口
             ChildCategoryAdd({
                 categoryName: data.sub_category,           // 分类名称参数
-                parentId: data.parent_category_data.id     // 父级分类ID参数
+                parentId: data.parent_category_data.data.id     // 父级分类ID参数
             }).then(response => {
                 // 清除加载状态
                 data.button_loading = false;
@@ -173,8 +173,7 @@ export default {
                 // 清除子级分类文本
                 data.sub_category = "";
                 // 追加子级数据
-                console.log(data.parent_category_data);
-                categoryTree.value.append(response.data, data.parent_category_data.data)
+                categoryTree.value.append(response.data, data.parent_category_data)
             }).catch(error => {
                 // 清除加载状态
                 data.button_loading = false;
