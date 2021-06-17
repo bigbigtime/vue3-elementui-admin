@@ -10,7 +10,7 @@
                         <span>
                             <el-button size="mini" type="danger" round class="button-mini" @click="handlerCategory('child_category_add', node)">添加子级</el-button>
                             <el-button size="mini" type="success" round class="button-mini" @click="handlerCategory(node.level === 1 ? 'parent_category_edit' : 'child_category_edit', node)">编辑</el-button>
-                            <el-button size="mini" round class="button-mini">删除</el-button>
+                            <el-button size="mini" round class="button-mini" @click="handlerCategory('delete_category', node)">删除</el-button>
                         </span>
                     </div>
                 </template>
@@ -35,7 +35,7 @@
 
 <script>
 import { reactive, getCurrentInstance, onBeforeMount } from 'vue';
-import { firstCategoryAdd, GetCategory, ChildCategoryAdd, CategoryEdit } from "@/api/info";
+import { firstCategoryAdd, GetCategory, ChildCategoryAdd, CategoryEdit, CategoryDel } from "@/api/info";
 export default {
     name: 'InfoCategory',
     components: {},
@@ -61,7 +61,8 @@ export default {
                 title: "添加分类",        // 标题
                 parent_disabled: true,   // 父级分类禁用/启用
                 sub_disabled: true,      // 子级分类禁用/启用
-                sub_show: true           // 子级分类显示/隐藏
+                sub_show: true,          // 子级分类显示/隐藏
+                clear: ["parent_category", "sub_category"]
             },
             first_category_add: {
                 title: "一级分类添加",    // 标题
@@ -105,9 +106,11 @@ export default {
             }else{
                 data.parent_category_data = category_data.data || null;
             }
-            config.type = type;
+            config.type = type === "delete_category" ? "default": type;
             // 文本清除、还原
             handlerInputValue();
+            // 删除弹作
+            (type === "delete_category") && handlerDeleteComfirm();
         }
         const handlerInputValue = () => {
             // 获取清除数据的对象
@@ -216,6 +219,34 @@ export default {
             }).catch(error => {
                 // 清除加载状态
                 data.button_loading = false;
+            })
+        }
+        const handlerDeleteComfirm = () => {
+            proxy.$confirm('确认删除该分类吗？删除后将无法恢复', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                showClose: false,
+                closeOnClickModal: false,
+                closeOnPressEscape: false,
+                type: 'warning',
+                beforeClose: (action, instance, done) => {
+                    if(action === "confirm") {
+                        instance.confirmButtonLoading = true;
+                        CategoryDel({categoryId: data.parent_category_data.id}).then(response => {
+                            // 成功提示
+                            proxy.$message({
+                                message: response.message,
+                                type: "success"
+                            })
+                            instance.confirmButtonLoading = false;
+                            done();
+                        }).catch(error => {
+                            instance.confirmButtonLoading = false;
+                        })
+                    }else{
+                        done();
+                    }
+                }
             })
         }
         onBeforeMount(() => {

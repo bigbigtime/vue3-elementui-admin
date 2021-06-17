@@ -26,6 +26,7 @@ export function ChildCategoryAdd(data = {}){
     })
 }
 
+/** 分类编辑 */
 export function CategoryEdit(data = {}){
     return instance.request({
         method: "post",
@@ -33,4 +34,12 @@ export function CategoryEdit(data = {}){
         data
     })
 }
-    
+
+/** 分类删除 */
+export function CategoryDel(data = {}){
+    return instance.request({
+        method: "post",
+        url: "/news/deleteCategory/",
+        data
+    })
+}
