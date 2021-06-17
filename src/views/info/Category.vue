@@ -96,8 +96,8 @@ export default {
         const handleNodeClick = (data) => {
             // console.log(data)
         }
-        const handlerCategory = (type, node) => {
-            console.log(node)
+        const handlerCategory = (type, node_data) => {
+            console.log(node_data)
             config.type = type;
         }
         return {
