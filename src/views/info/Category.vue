@@ -3,13 +3,13 @@
     <hr class="spacing-hr" />
     <el-row :gutter="20">
         <el-col :span="7">
-            <el-tree :data="data.tree_data" :props="data.defaultProps" default-expand-all :expand-on-click-node="false">
+            <el-tree ref="categoryTree" :data="data.tree_data" :props="data.defaultProps" default-expand-all :expand-on-click-node="false">
                 <template #default="{ node, data }">
                     <div class="custom-tree-node">
                         <span>{{ node.label }}</span>
                         <span>
-                            <el-button size="mini" type="danger" round class="button-mini" @click="handlerCategory('child_category_add', data)">添加子级</el-button>
-                            <el-button size="mini" type="success" round class="button-mini" @click="handlerCategory('child_category_edit')">编辑</el-button>
+                            <el-button size="mini" type="danger" round class="button-mini" @click="handlerCategory('child_category_add', node)">添加子级</el-button>
+                            <el-button size="mini" type="success" round class="button-mini" @click="handlerCategory(node.level === 1 ? 'parent_category_edit' : 'child_category_edit', node)">编辑</el-button>
                             <el-button size="mini" round class="button-mini">删除</el-button>
                         </span>
                     </div>
@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import { reactive, getCurrentInstance, onBeforeMount } from 'vue';
+import { ref, reactive, getCurrentInstance, onBeforeMount } from 'vue';
 import { firstCategoryAdd, GetCategory, ChildCategoryAdd } from "@/api/info";
 export default {
     name: 'InfoCategory',
@@ -93,9 +93,9 @@ export default {
         // const handleNodeClick = (data) => {
         //     console.log(data)
         // }
-        const handlerCategory = (type, parent_data) => {
-            data.parent_category_data = parent_data || null;
-            console.log(data.parent_category_data);
+        const categoryTree = ref(null);
+        const handlerCategory = (type, node_data) => {
+            data.parent_category_data = node_data.data || null;
             config.type = type;
             // 文本清除、还原
             handlerInputValue();
@@ -173,8 +173,8 @@ export default {
                 // 清除子级分类文本
                 data.sub_category = "";
                 // 追加子级数据
-                data.parent_category_data.children.push(response.data);
-                data.tree_data = [...data.tree_data];
+                console.log(data.parent_category_data);
+                categoryTree.value.append(response.data, data.parent_category_data.data)
             }).catch(error => {
                 // 清除加载状态
                 data.button_loading = false;
@@ -188,7 +188,8 @@ export default {
             // handleNodeClick,
             handlerCategory,
             handlerSubmit,
-            config
+            config,
+            categoryTree
         }
     }
 }
@@ -206,8 +207,8 @@ export default {
     justify-content: space-between;
     padding-right: 8px;
 }
-::v-deep(.el-tree-node__content) { height: auto; }
-::v-deep(.button-mini) {
+:deep(.el-tree-node__content) { height: auto; }
+:deep(.button-mini) {
     padding: 6px 12px;
     margin: 8px 3px;
     font-size: 12px;
