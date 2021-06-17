@@ -8,9 +8,9 @@
                     <div class="custom-tree-node">
                         <span>{{ node.label }}</span>
                         <span>
-                            <el-button size="mini" type="danger" round class="button-mini" @click="handlerCategory('child_category_add', data)">添加子级</el-button>
-                            <el-button size="mini" type="success" round class="button-mini" @click="handlerCategory('child_category_edit')">编辑</el-button>
-                            <el-button size="mini" round class="button-mini">删除</el-button>
+                            <el-button size="mini" type="danger" round class="button-mini" @click="handlerCategory('child_category_add', node)">添加子级</el-button>
+                            <el-button size="mini" type="success" round class="button-mini" @click="handlerCategory(node.level === 1 ? 'parent_category_edit' : 'child_category_edit', node)">编辑</el-button>
+                            <el-button size="mini" round class="button-mini" @click="handlerCategory('delete_category', node)">删除</el-button>
                         </span>
                     </div>
                 </template>
@@ -35,7 +35,7 @@
 
 <script>
 import { reactive, getCurrentInstance, onBeforeMount } from 'vue';
-import { firstCategoryAdd, GetCategory, ChildCategoryAdd } from "@/api/info";
+import { firstCategoryAdd, GetCategory, ChildCategoryAdd, CategoryEdit, CategoryDel } from "@/api/info";
 export default {
     name: 'InfoCategory',
     components: {},
@@ -52,7 +52,8 @@ export default {
             parent_category: "父级分类文本演示",   // 父级分类
             sub_category: "子级分类文本演示",      // 子级分类
             button_loading: false,  // 按钮加载
-            parent_category_data: null
+            parent_category_data: null,
+            sub_category_data: null
         })
         const config = reactive({
             type: "default",
@@ -60,7 +61,8 @@ export default {
                 title: "添加分类",        // 标题
                 parent_disabled: true,   // 父级分类禁用/启用
                 sub_disabled: true,      // 子级分类禁用/启用
-                sub_show: true           // 子级分类显示/隐藏
+                sub_show: true,          // 子级分类显示/隐藏
+                clear: ["parent_category", "sub_category"]
             },
             first_category_add: {
                 title: "一级分类添加",    // 标题
@@ -81,24 +83,34 @@ export default {
                 title: "父级分类编辑",    // 标题
                 parent_disabled: false,   // 父级分类禁用/启用
                 sub_disabled: true,      // 子级分类禁用/启用
-                sub_show: false     
+                sub_show: false,
+                clear: ["child_category"],
+                create: ["parent_category"]
             },
             child_category_edit: {
                 title: "子级分类编辑",    // 标题
                 parent_disabled: true,   // 父级分类禁用/启用
                 sub_disabled: false,      // 子级分类禁用/启用
-                sub_show: true     
+                sub_show: true,
+                create: ["parent_category", "sub_category"]
             }
         });
         // const handleNodeClick = (data) => {
         //     console.log(data)
         // }
-        const handlerCategory = (type, parent_data) => {
-            data.parent_category_data = parent_data || null;
-            console.log(data.parent_category_data);
-            config.type = type;
+        const handlerCategory = (type, category_data) => {
+            console.log(category_data);
+            if(type === "child_category_edit") {
+                data.parent_category_data = category_data.parent.data || null;
+                data.sub_category_data = category_data.data || null;
+            }else{
+                data.parent_category_data = category_data.data || null;
+            }
+            config.type = type === "delete_category" ? "default": type;
             // 文本清除、还原
             handlerInputValue();
+            // 删除弹作
+            (type === "delete_category") && handlerDeleteComfirm();
         }
         const handlerInputValue = () => {
             // 获取清除数据的对象
@@ -122,6 +134,7 @@ export default {
         const handlerSubmit = () => {
             if(config.type === 'first_category_add') { handlerFirstCategoryAdd(); }
             if(config.type === 'child_category_add') { handlerChildCategoryAdd(); }
+            if(config.type === 'child_category_edit' || config.type === 'parent_category_edit') { handlerCategoryEdit(); }
         }
         // 一级分类添加
         const handlerFirstCategoryAdd = () => {
@@ -178,6 +191,67 @@ export default {
             }).catch(error => {
                 // 清除加载状态
                 data.button_loading = false;
+            })
+        }
+        // 分类编辑
+        const handlerCategoryEdit = () => {
+            // 分级为空时提示
+            if(!data.sub_category || !data.parent_category) {
+                const message = config.type === "parent_category_edit" ? "父级" : "子级";
+                proxy.$message.error(`${message}分类不能为空`);
+                return false
+            }
+            // 按钮加载状态
+            data.button_loading = true;
+            // 接口
+            CategoryEdit({
+                categoryName: config.type === "parent_category_edit" ? data.parent_category : data.sub_category,           // 分类名称参数
+                id: config.type === "parent_category_edit" ? data.parent_category_data.id : data.sub_category_data.id      // 分类ID参数
+            }).then(response => {
+                // 清除加载状态
+                data.button_loading = false;
+                // 成功提示
+                proxy.$message({
+                    message: response.message,
+                    type: "success"
+                })
+                // 同步更新树形菜单节点
+                if(config.type === "parent_category_edit") {
+                    data.parent_category_data.category_name = data.parent_category;
+                }else{
+                    data.sub_category_data.category_name = data.sub_category;
+                }
+            }).catch(error => {
+                // 清除加载状态
+                data.button_loading = false;
+            })
+        }
+        const handlerDeleteComfirm = () => {
+            proxy.$confirm('确认删除该分类吗？删除后将无法恢复', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                showClose: false,            // 取消右上角关闭按钮
+                closeOnClickModal: false,    // 取消点击遮罩关闭 MessageBox
+                closeOnPressEscape: false,   // 取消按下ESC键关闭MessageBox
+                type: 'warning',
+                beforeClose: (action, instance, done) => {
+                    if(action === "confirm") {
+                        instance.confirmButtonLoading = true;
+                        CategoryDel({categoryId: data.parent_category_data.id}).then(response => {
+                            // 成功提示
+                            proxy.$message({
+                                message: response.message,
+                                type: "success"
+                            })
+                            instance.confirmButtonLoading = false;
+                            done();
+                        }).catch(error => {
+                            instance.confirmButtonLoading = false;
+                        })
+                    }else{
+                        done();
+                    }
+                }
             })
         }
         onBeforeMount(() => {

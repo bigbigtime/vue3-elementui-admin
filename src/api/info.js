@@ -25,3 +25,21 @@ export function ChildCategoryAdd(data = {}){
         data
     })
 }
+
+/** 分类编辑 */
+export function CategoryEdit(data = {}){
+    return instance.request({
+        method: "post",
+        url: "/news/editCategory/",
+        data
+    })
+}
+
+/** 分类删除 */
+export function CategoryDel(data = {}){
+    return instance.request({
+        method: "post",
+        url: "/news/deleteCategory/",
+        data
+    })
+}
