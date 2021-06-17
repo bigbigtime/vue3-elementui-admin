@@ -228,9 +228,9 @@ export default {
             proxy.$confirm('确认删除该分类吗？删除后将无法恢复', '提示', {
                 confirmButtonText: '确定',
                 cancelButtonText: '取消',
-                showClose: false,
-                closeOnClickModal: false,
-                closeOnPressEscape: false,
+                showClose: false,            // 取消右上角关闭按钮
+                closeOnClickModal: false,    // 取消点击遮罩关闭 MessageBox
+                closeOnPressEscape: false,   // 取消按下ESC键关闭MessageBox
                 type: 'warning',
                 beforeClose: (action, instance, done) => {
                     if(action === "confirm") {
