@@ -183,6 +183,9 @@ export default {
                 })
                 // 清除子级分类文本
                 data.sub_category = "";
+                // 追加子级数据
+                data.parent_category_data.children.push(response.data);
+                data.tree_data = [...data.tree_data];
             }).catch(error => {
                 // 清除加载状态
                 data.button_loading = false;
