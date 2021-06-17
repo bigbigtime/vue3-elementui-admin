@@ -114,6 +114,7 @@ export default {
                 })
             }
         }
+
         return {
             data,
             handleNodeClick,
