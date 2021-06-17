@@ -93,9 +93,9 @@ export default {
         // const handleNodeClick = (data) => {
         //     console.log(data)
         // }
-        const handlerCategory = (type, data) => {
+        const handlerCategory = (type, node_data) => {
             // 父级分类存储
-            data.parent_category_data = data || null;
+            data.parent_category_data = node_data || null;
             config.type = type;
             // 文本清除、还原
             handlerInputValue();
