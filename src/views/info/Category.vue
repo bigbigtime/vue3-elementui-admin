@@ -9,7 +9,7 @@
                         <span>{{ node.label }}</span>
                         <span>
                             <el-button size="mini" type="danger" round class="button-mini" @click="handlerCategory('child_category_add')">添加子级</el-button>
-                            <el-button size="mini" type="success" round class="button-mini" @click="handlerCategory('child_category_edit')">编辑</el-button>
+                            <el-button size="mini" type="success" round class="button-mini" @click="handlerCategory(node.level === 1 ? 'parent_category_edit' : 'child_category_edit', node)">编辑</el-button>
                             <el-button size="mini" round class="button-mini">删除</el-button>
                         </span>
                     </div>
@@ -99,7 +99,7 @@ export default {
         const handleNodeClick = (data) => {
             console.log(data)
         }
-        const handlerCategory = (type) => {
+        const handlerCategory = (type, node_data) => {
             config.type = type;
             // 文本清除、还原
             handlerInputValue();
