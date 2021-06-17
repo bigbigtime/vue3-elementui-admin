@@ -8,7 +8,7 @@
                     <div class="custom-tree-node">
                         <span>{{ node.label }}</span>
                         <span>
-                            <el-button size="mini" type="danger" round class="button-mini" @click="handlerCategory('child_category_add', data)">添加子级</el-button>
+                            <el-button size="mini" type="danger" round class="button-mini" @click="handlerCategory('child_category_add', node)">添加子级</el-button>
                             <el-button size="mini" type="success" round class="button-mini" @click="handlerCategory(node.level === 1 ? 'parent_category_edit' : 'child_category_edit', node)">编辑</el-button>
                             <el-button size="mini" round class="button-mini">删除</el-button>
                         </span>
@@ -94,6 +94,7 @@ export default {
         //     console.log(data)
         // }
         const handlerCategory = (type, node_data) => {
+            console.log(node_data)
             // 父级分类存储
             data.parent_category_data = node_data || null;
             config.type = type;
