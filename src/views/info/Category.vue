@@ -8,8 +8,8 @@
                     <div class="custom-tree-node">
                         <span>{{ node.label }}</span>
                         <span>
-                            <el-button size="mini" type="danger" round class="button-mini" @click="handlerCategory('child_category_add', data)">添加子级</el-button>
-                            <el-button size="mini" type="success" round class="button-mini" @click="handlerCategory('child_category_edit')">编辑</el-button>
+                            <el-button size="mini" type="danger" round class="button-mini" @click="handlerCategory('child_category_add', node)">添加子级</el-button>
+                            <el-button size="mini" type="success" round class="button-mini" @click="handlerCategory(node.level === 1 ? 'parent_category_edit' : 'child_category_edit', node)">编辑</el-button>
                             <el-button size="mini" round class="button-mini">删除</el-button>
                         </span>
                     </div>
@@ -52,7 +52,8 @@ export default {
             parent_category: "父级分类文本演示",   // 父级分类
             sub_category: "子级分类文本演示",      // 子级分类
             button_loading: false,  // 按钮加载
-            parent_category_data: null
+            parent_category_data: null,
+            sub_category_data: null
         })
         const config = reactive({
             type: "default",
@@ -81,20 +82,29 @@ export default {
                 title: "父级分类编辑",    // 标题
                 parent_disabled: false,   // 父级分类禁用/启用
                 sub_disabled: true,      // 子级分类禁用/启用
-                sub_show: false     
+                sub_show: false,
+                clear: ["child_category"],
+                create: ["parent_category"]
             },
             child_category_edit: {
                 title: "子级分类编辑",    // 标题
                 parent_disabled: true,   // 父级分类禁用/启用
                 sub_disabled: false,      // 子级分类禁用/启用
-                sub_show: true     
+                sub_show: true,
+                create: ["parent_category", "sub_category"]
             }
         });
         // const handleNodeClick = (data) => {
         //     console.log(data)
         // }
-        const handlerCategory = (type, parent_data) => {
-            data.parent_category_data = parent_data || null;
+        const handlerCategory = (type, category_data) => {
+            console.log(category_data);
+            if(type === "child_category_edit") {
+                data.parent_category_data = category_data.parent.data || null;
+                data.sub_category_data = category_data.data || null;
+            }else{
+                data.parent_category_data = category_data.data || null;
+            }
             config.type = type;
             // 文本清除、还原
             handlerInputValue();
