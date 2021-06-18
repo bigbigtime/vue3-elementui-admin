@@ -109,8 +109,6 @@ export default {
             config.type = type === "delete_category" ? "default": type;
             // 文本清除、还原
             handlerInputValue();
-            // 删除弹作
-            (type === "delete_category") && handlerDeleteComfirm();
         }
         const handlerInputValue = () => {
             // 获取清除数据的对象
@@ -220,34 +218,6 @@ export default {
             }).catch(error => {
                 // 清除加载状态
                 data.button_loading = false;
-            })
-        }
-        const handlerDeleteComfirm = () => {
-            proxy.$confirm('确认删除该分类吗？删除后将无法恢复', '提示', {
-                confirmButtonText: '确定',
-                cancelButtonText: '取消',
-                showClose: false,            // 取消右上角关闭按钮
-                closeOnClickModal: false,    // 取消点击遮罩关闭 MessageBox
-                closeOnPressEscape: false,   // 取消按下ESC键关闭MessageBox
-                type: 'warning',
-                beforeClose: (action, instance, done) => {
-                    if(action === "confirm") {
-                        instance.confirmButtonLoading = true;
-                        CategoryDel({categoryId: data.parent_category_data.id}).then(response => {
-                            // 成功提示
-                            proxy.$message({
-                                message: response.message,
-                                type: "success"
-                            })
-                            instance.confirmButtonLoading = false;
-                            done();
-                        }).catch(error => {
-                            instance.confirmButtonLoading = false;
-                        })
-                    }else{
-                        done();
-                    }
-                }
             })
         }
         onBeforeMount(() => {
