@@ -35,7 +35,7 @@
 
 <script>
 import { ref, reactive, getCurrentInstance, onBeforeMount } from 'vue';
-import { firstCategoryAdd, GetCategory, ChildCategoryAdd, CategoryEdit } from "@/api/info";
+import { firstCategoryAdd, GetCategory, ChildCategoryAdd, CategoryEdit, CategoryDel } from "@/api/info";
 export default {
     name: 'InfoCategory',
     components: {},
