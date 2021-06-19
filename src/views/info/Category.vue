@@ -230,24 +230,7 @@ export default {
                 closeOnClickModal: false,    // 取消点击遮罩关闭 MessageBox
                 closeOnPressEscape: false,   // 取消按下ESC键关闭MessageBox
                 type: 'warning',
-                beforeClose: (action, instance, done) => {
-                    if(action === "confirm") {
-                        instance.confirmButtonLoading = true;
-                        CategoryDel({categoryId: data.parent_category_data.id}).then(response => {
-                            // 成功提示
-                            proxy.$message({
-                                message: response.message,
-                                type: "success"
-                            })
-                            instance.confirmButtonLoading = false;
-                            done();
-                        }).catch(error => {
-                            instance.confirmButtonLoading = false;
-                        })
-                    }else{
-                        done();
-                    }
-                }
+                beforeClose: (action, instance, done) => {}
             })
         }
         onBeforeMount(() => {
