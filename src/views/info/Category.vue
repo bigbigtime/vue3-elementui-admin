@@ -233,7 +233,7 @@ export default {
                 beforeClose: (action, instance, done) => {
                     if(action === "confirm") {
                         instance.confirmButtonLoading = true;
-                        CategoryDel({categoryId: data.parent_category_data.id}).then(response => {
+                        CategoryDel({categoryId: data.parent_category_data.data.id}).then(response => {
                             // 成功提示
                             proxy.$message({
                                 message: response.message,
