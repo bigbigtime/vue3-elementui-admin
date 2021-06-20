@@ -3,7 +3,7 @@
     <hr class="spacing-hr" />
     <el-row :gutter="20">
         <el-col :span="7">
-            <el-tree ref="categoryTree" node-key="id" :data="data.tree_data" :props="data.defaultProps" default-expand-all :expand-on-click-node="false">
+            <el-tree :data="data.tree_data" :props="data.defaultProps" default-expand-all :expand-on-click-node="false">
                 <template #default="{ node, data }">
                     <div class="custom-tree-node">
                         <span>{{ node.label }}</span>
@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import { ref, reactive, getCurrentInstance, onBeforeMount } from 'vue';
+import { reactive, getCurrentInstance, onBeforeMount } from 'vue';
 import { firstCategoryAdd, GetCategory, ChildCategoryAdd, CategoryEdit } from "@/api/info";
 export default {
     name: 'InfoCategory',
@@ -96,13 +96,13 @@ export default {
         // const handleNodeClick = (data) => {
         //     console.log(data)
         // }
-        const categoryTree = ref(null);
-        const handlerCategory = (type, node_data) => {
+        const handlerCategory = (type, category_data) => {
+            console.log(category_data);
             if(type === "child_category_edit") {
-                data.parent_category_data = node_data.parent || null;
-                data.sub_category_data = node_data || null;
+                data.parent_category_data = category_data.parent.data || null;
+                data.sub_category_data = category_data.data || null;
             }else{
-                data.parent_category_data = node_data || null;
+                data.parent_category_data = category_data.data || null;
             }
             config.type = type;
             // 文本清除、还原
@@ -122,7 +122,7 @@ export default {
             // 执行还原动作
             if(createObject && createObject.length > 0) {
                 createObject.forEach(item => {
-                    data[item] = data[`${item}_data`].data.category_name;
+                    data[item] = data[`${item}_data`].category_name;
                 })
             }
         }
@@ -147,8 +147,6 @@ export default {
                     type: "success"
                 })
                 data.parent_category = "";
-                // 刷新树形菜单数据
-                handlerGetCategory();
             }).catch(error => {
                 data.button_loading = false;
             })
@@ -170,7 +168,7 @@ export default {
             // 接口
             ChildCategoryAdd({
                 categoryName: data.sub_category,           // 分类名称参数
-                parentId: data.parent_category_data.data.id     // 父级分类ID参数
+                parentId: data.parent_category_data.id     // 父级分类ID参数
             }).then(response => {
                 // 清除加载状态
                 data.button_loading = false;
@@ -181,8 +179,6 @@ export default {
                 })
                 // 清除子级分类文本
                 data.sub_category = "";
-                // 追加子级数据
-                categoryTree.value.append(response.data, data.parent_category_data);
             }).catch(error => {
                 // 清除加载状态
                 data.button_loading = false;
@@ -201,7 +197,7 @@ export default {
             // 接口
             CategoryEdit({
                 categoryName: config.type === "parent_category_edit" ? data.parent_category : data.sub_category,           // 分类名称参数
-                id: config.type === "parent_category_edit" ? data.parent_category_data.data.id : data.sub_category_data.data.id      // 分类ID参数
+                id: config.type === "parent_category_edit" ? data.parent_category_data.id : data.sub_category_data.id      // 分类ID参数
             }).then(response => {
                 // 清除加载状态
                 data.button_loading = false;
@@ -211,8 +207,11 @@ export default {
                     type: "success"
                 })
                 // 同步更新树形菜单节点
-                const node_date = config.type === "parent_category_edit" ? data.parent_category_data : data.sub_category_data;
-                node_date.data.category_name = response.data.category_name;
+                if(config.type === "parent_category_edit") {
+                    data.parent_category_data.category_name = data.parent_category;
+                }else{
+                    data.sub_category_data.category_name = data.sub_category;
+                }
             }).catch(error => {
                 // 清除加载状态
                 data.button_loading = false;
@@ -226,8 +225,7 @@ export default {
             // handleNodeClick,
             handlerCategory,
             handlerSubmit,
-            config,
-            categoryTree
+            config
         }
     }
 }
@@ -245,8 +243,8 @@ export default {
     justify-content: space-between;
     padding-right: 8px;
 }
-:deep(.el-tree-node__content) { height: auto; }
-:deep(.button-mini) {
+::v-deep(.el-tree-node__content) { height: auto; }
+::v-deep(.button-mini) {
     padding: 6px 12px;
     margin: 8px 3px;
     font-size: 12px;
