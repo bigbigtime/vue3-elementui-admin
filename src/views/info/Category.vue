@@ -83,7 +83,6 @@ export default {
                 parent_disabled: false,   // 父级分类禁用/启用
                 sub_disabled: true,      // 子级分类禁用/启用
                 sub_show: false,
-                clear: ["child_category"],
                 create: ["parent_category"]
             },
             child_category_edit: {
