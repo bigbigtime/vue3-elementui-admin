@@ -195,7 +195,9 @@ export default {
         // 分类编辑
         const handlerCategoryEdit = () => {
             // 分级为空时提示
-            if(!data.sub_category || !data.parent_category) {
+            console.log(!data.parent_category);
+            console.log(data.sub_category);
+            if(data.parent_category == "" || data.sub_category == "") {
                 const message = config.type === "parent_category_edit" ? "父级" : "子级";
                 proxy.$message.error(`${message}分类不能为空`);
                 return false
@@ -241,8 +243,11 @@ export default {
                             })
                             instance.confirmButtonLoading = false;
                             done();
+                            // 删除交互
+                            categoryTree.value.remove(data.parent_category_data);
                         }).catch(error => {
                             instance.confirmButtonLoading = false;
+                            done();
                         })
                     }else{
                         done();
