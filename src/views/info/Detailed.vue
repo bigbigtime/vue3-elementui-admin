@@ -30,25 +30,36 @@
     </el-form>
 </template>
 <script>
-import { reactive, ref, onMounted } from "vue";
+import { reactive, ref, onMounted, onBeforeMount } from "vue";
+import { useStore } from "vuex";
 import WangEditor from 'wangeditor';
 export default {
     name: 'InfoDetailed',
     components: {},
     props: {},
     setup(props){
+        // store
+        const store = useStore();
         const data = reactive({
             imageUrl: "",
             category: "",
             title: "",
             date: "",
-            category_opacity: [
-                { label: "人工智能", value: 0 },
-                { label: "技术", value: 1 }
-            ]
+            category_options: []
         })
         const editor = ref();
         let editor_instance = null;
+        /** 获取分类 */
+        const getCategory = () => {
+            store.dispatch("info/categoryAction").then(response => {
+                data.category_options = response;
+            });
+        };
+        /** 挂载之前 */
+        onBeforeMount(() => {
+            getCategory()
+        });
+
         onMounted(() => {
             editor_instance = new WangEditor(editor.value);
             Object.assign(editor_instance.config, {
