@@ -1,4 +1,4 @@
-import { ElCascader, ElCascaderPanel, ElSlider, ElButton, ElSwitch, ElTree, ElForm, ElFormItem, ElInput, ElSelect, ElCol , ElRow, ElMessage, ElMessageBox, ElContainer, ElAside, ElHeader,ElMain, ElMenu, ElMenuItem, ElSubmenu, ElOption, ElTable, ElTableColumn, ElPagination, ElInputNumber, ElUpload, ElDatePicker} from 'element-plus';
+import { ElCascader, ElCascaderPanel, ElSlider, ElButton, ElSwitch, ElTree, ElForm, ElFormItem, ElInput, ElSelect, ElCol , ElRow, ElMessage, ElMessageBox, ElContainer, ElAside, ElHeader,ElMain, ElMenu, ElMenuItem, ElSubmenu, ElOption, ElTable, ElTableColumn, ElPagination, ElInputNumber, ElUpload, ElDatePicker, ElRadio, ElRadioGroup} from 'element-plus';
 // 设置语言
 import lang from 'element-plus/lib/locale/lang/zh-cn';
 import locale from 'element-plus/lib/locale';
@@ -33,4 +33,6 @@ export default (app) => {
     app.use(ElInputNumber);
     app.use(ElUpload);
     app.use(ElDatePicker);
+    app.use(ElRadio);
+    app.use(ElRadioGroup);
 }
