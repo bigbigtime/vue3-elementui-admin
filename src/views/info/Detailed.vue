@@ -34,6 +34,7 @@ import { reactive, ref, onMounted, onBeforeMount } from "vue";
 import { useStore } from "vuex";
 import WangEditor from 'wangeditor';
 import { categoryHook } from "@/hook/infoHook";
+import { GetQininToken } from "@/api/common";
 export default {
     name: 'InfoDetailed',
     components: {},
@@ -52,14 +53,33 @@ export default {
             cascader_props: {
                 label: "category_name",
                 value: "id"
+            },
+            upload_data: {
+                token: ""
             }
         })
         const editor = ref();
         let editor_instance = null;
+        const getQiniuToken = () => {
+            const requestData = {
+                ak: "Avh-EZZAa4TxqPQZsEW42fXBUbTMFi-RKSZTRKJj",
+                sk: "l9AXtnhCVkZexXNRcmHXzmecXiCUiLynwGboMeUw",
+                buckety: "bigbigtime"
+            }
+            GetQininToken(requestData).then(response => {
+                const responseData = response.data;
+                if(responseData) {
+                    data.uploadData.token = responseData.token
+                }
+            })
+        }
+
         /** 挂载之前 */
         onBeforeMount(() => {
             getList();
+            getQiniuToken();
         });
+
 
         onMounted(() => {
             editor_instance = new WangEditor(editor.value);
