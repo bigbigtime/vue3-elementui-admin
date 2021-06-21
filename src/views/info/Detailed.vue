@@ -9,12 +9,14 @@
         <el-form-item label="缩略图：">
             <el-upload
                 class="avatar-uploader"
-                action="https://jsonplaceholder.typicode.com/posts/"
+                action="http://up-z2.qiniup.com"
+                :data="data.upload_data"
+                :on-success="handlerOnSuccess "
+                :before-upload="handlerBeforeOnUpload"
+                :on-error="handlerOnError"
                 :show-file-list="false"
-                :on-success="handleAvatarSuccess"
-                :before-upload="beforeAvatarUpload"
             >
-                <img v-if="imageUrl" :src="imageUrl" class="avatar">
+                <img v-if="data.image_url" :src="data.image_url" class="avatar" />
                 <i v-else class="el-icon-plus avatar-uploader-icon"></i>
             </el-upload>
         </el-form-item>
@@ -45,7 +47,7 @@ export default {
         // hook
         const { infoData: category_data, handlerGetCategory: getList } = categoryHook();
         const data = reactive({
-            imageUrl: "",
+            image_url: "",
             category: "",
             title: "",
             date: "",
@@ -55,24 +57,53 @@ export default {
                 value: "id"
             },
             upload_data: {
-                token: ""
+                token: "",
+                key: ""
             }
         })
         const editor = ref();
         let editor_instance = null;
         const getQiniuToken = () => {
             const requestData = {
-                ak: "Avh-EZZAa4TxqPQZsEW42fXBUbTMFi-RKSZTRKJj",
-                sk: "l9AXtnhCVkZexXNRcmHXzmecXiCUiLynwGboMeUw",
-                buckety: "bigbigtime"
+                ak: "AXs9_jiNK_Fy4HyYRzujTuxFSm3x6V7MPulsv3Vq",
+                sk: "gUsR1ngTi08vf4f43p6A7U3B3wT3tvt-bVEW8WwK",
+                buckety: "fffffffff"
             }
             GetQininToken(requestData).then(response => {
                 const responseData = response.data;
                 if(responseData) {
-                    data.uploadData.token = responseData.token
+                    data.upload_data.token = responseData.token
                 }
             })
         }
+
+        const handlerOnSuccess = (res, file) => {}
+        const handlerOnError = (res, file) => {}
+        const handlerBeforeOnUpload = (file) => {
+            console.log(file)
+            const isJPG = file.type === 'image/jpeg';  // 限制 JPG 格式文件上传
+            const isLt2M = file.size / 1024 / 1024 < 2; // 限制文件大小不能大于 2M
+            if (!isJPG) {
+                root.gMessage({
+                    msg: "上传图片只能是 JPG 格式!",
+                    type: "error"
+                })
+                return false;
+            }
+            if (!isLt2M) {
+                root.gMessage({
+                    msg: "上传图片大小不能超过 2MB!",
+                    type: "error"
+                })
+                return false;
+            }
+            // 文件名转码
+            let suffix = file.name;
+            let key = encodeURI(`${suffix}`);
+            data.upload_data.key = key;
+            return isJPG && isLt2M;
+        }
+
 
         /** 挂载之前 */
         onBeforeMount(() => {
@@ -90,7 +121,7 @@ export default {
             });
             editor_instance.create();
         })
-        return { data, editor, category_data }
+        return { data, editor, category_data, handlerOnSuccess, handlerOnError, handlerBeforeOnUpload }
     }
 }
 </script>
