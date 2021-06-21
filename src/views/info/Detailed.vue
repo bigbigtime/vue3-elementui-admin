@@ -1,7 +1,7 @@
 <template>
     <el-form label-width="150px">
         <el-form-item label="信息类别：">
-            <el-cascader v-model="data.category" :options="infoData.category_options" :props="data.cascader_props"></el-cascader>
+            <el-cascader v-model="data.category" :options="category_data.category_options" :props="data.cascader_props"></el-cascader>
         </el-form-item>
         <el-form-item label="信息标题：">
             <el-input v-model="data.title"></el-input>
@@ -42,7 +42,7 @@ export default {
         // store
         const store = useStore();
         // hook
-        const { infoData, handlerGetCategory } = categoryHook();
+        const { infoData: category_data, handlerGetCategory: getList } = categoryHook();
         const data = reactive({
             imageUrl: "",
             category: "",
@@ -58,7 +58,7 @@ export default {
         let editor_instance = null;
         /** 挂载之前 */
         onBeforeMount(() => {
-            handlerGetCategory();
+            getList();
         });
 
         onMounted(() => {
@@ -70,7 +70,7 @@ export default {
             });
             editor_instance.create();
         })
-        return { data, editor, infoData }
+        return { data, editor, category_data }
     }
 }
 </script>
