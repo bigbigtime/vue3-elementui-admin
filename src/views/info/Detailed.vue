@@ -1,10 +1,10 @@
 <template>
     <el-form label-width="150px">
         <el-form-item label="信息类别：">
-            <el-cascader v-model="data.category" :options="category_data.category_options" :props="data.cascader_props"></el-cascader>
+            <el-cascader v-model="field.category" :options="category_data.category_options" :props="data.cascader_props"></el-cascader>
         </el-form-item>
         <el-form-item label="信息标题：">
-            <el-input v-model="data.title"></el-input>
+            <el-input v-model="field.title"></el-input>
         </el-form-item>
         <el-form-item label="缩略图：">
             <el-upload
@@ -16,12 +16,12 @@
                 :on-error="handlerOnError"
                 :show-file-list="false"
             >
-                <img v-if="data.image_url" :src="data.image_url" class="avatar" />
+                <img v-if="field.image_url" :src="field.image_url" class="avatar" />
                 <i v-else class="el-icon-plus avatar-uploader-icon"></i>
             </el-upload>
         </el-form-item>
         <el-form-item label="发布日期：">
-            <el-date-picker v-model="data.date" type="datetime" placeholder="选择日期时间" class="info-date"></el-date-picker>
+            <el-date-picker v-model="field.date" type="datetime" placeholder="选择日期时间" class="info-date"></el-date-picker>
         </el-form-item>
         <el-form-item label="内容：">
             <div ref="editor"></div>
@@ -32,7 +32,7 @@
     </el-form>
 </template>
 <script>
-import { reactive, ref, onMounted, onBeforeMount, getCurrentInstance } from "vue";
+import { reactive, ref, toRefs, onMounted, onBeforeMount, getCurrentInstance } from "vue";
 import { useStore } from "vuex";
 import WangEditor from 'wangeditor';
 import { categoryHook } from "@/hook/infoHook";
@@ -49,10 +49,6 @@ export default {
         // hook
         const { infoData: category_data, handlerGetCategory: getList } = categoryHook();
         const data = reactive({
-            image_url: "",
-            category: "",
-            title: "",
-            date: "",
             category_options: [],
             cascader_props: {
                 label: "category_name",
@@ -61,6 +57,15 @@ export default {
             upload_data: {
                 token: "",
                 key: ""
+            }
+        })
+        const form = reactive({
+            field: {
+                image_url: "",
+                category: "",
+                title: "",
+                date: "",
+                content: ""
             }
         })
         const editor = ref();
@@ -81,12 +86,11 @@ export default {
 
         const handlerOnSuccess = (res, file) => {
 			let image = `http://qv18xxim7.hn-bkt.clouddn.com/${res.key}`;
-			data.image_url = image;
+			form.field.image_url = image;
         }
 
         const handlerOnError = (res, file) => {}
         const handlerBeforeOnUpload = (file) => {
-            console.log(file)
             const isJPG = file.type === 'image/jpeg';  // 限制 JPG 格式文件上传
             const isLt2M = file.size / 1024 / 1024 < 2; // 限制文件大小不能大于 2M
             if (!isJPG) {
@@ -104,14 +108,10 @@ export default {
             return isJPG && isLt2M;
         }
 
-
-        /** 挂载之前 */
         onBeforeMount(() => {
             getList();
             getQiniuToken();
         });
-
-
         onMounted(() => {
             editor_instance = new WangEditor(editor.value);
             Object.assign(editor_instance.config, {
@@ -121,7 +121,15 @@ export default {
             });
             editor_instance.create();
         })
-        return { data, editor, category_data, handlerOnSuccess, handlerOnError, handlerBeforeOnUpload }
+        return { 
+            ...toRefs(form),
+            data, 
+            editor, 
+            category_data, 
+            handlerOnSuccess, 
+            handlerOnError, 
+            handlerBeforeOnUpload
+        }
     }
 }
 </script>
