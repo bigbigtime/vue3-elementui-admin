@@ -1,12 +1,12 @@
 <template>
-    <el-form label-width="150px">
-        <el-form-item label="信息类别：">
+    <el-form ref="formDom" label-width="150px" :model="field" :rules="form_rules">
+        <el-form-item label="信息类别：" prop="category_id">
             <el-cascader v-model="field.category_id" :options="category_data.category_options" :props="data.cascader_props"></el-cascader>
         </el-form-item>
-        <el-form-item label="信息标题：">
+        <el-form-item label="信息标题：" prop="title">
             <el-input v-model="field.title"></el-input>
         </el-form-item>
-        <el-form-item label="缩略图：">
+        <el-form-item label="缩略图：" prop="image_url">
             <el-upload
                 class="avatar-uploader"
                 action="http://up-z2.qiniup.com"
@@ -20,20 +20,20 @@
                 <i v-else class="el-icon-plus avatar-uploader-icon"></i>
             </el-upload>
         </el-form-item>
-        <el-form-item label="发布日期：">
+        <el-form-item label="发布日期：" prop="create_date">
             <el-date-picker v-model="field.create_date" type="datetime" placeholder="选择日期时间" class="info-date"></el-date-picker>
         </el-form-item>
-        <el-form-item label="内容：">
+        <el-form-item label="内容：" prop="content">
             <div ref="editor"></div>
         </el-form-item>
-        <el-form-item label="是否发布：">
+        <el-form-item label="是否发布：" prop="status">
             <el-radio-group v-model="field.status">
                 <el-radio label="1">是</el-radio>
                 <el-radio label="0">否</el-radio>
             </el-radio-group>
         </el-form-item>
         <el-form-item>
-            <el-button type="danger">确定</el-button>
+            <el-button type="danger" @click="handlerSubmitForm">确定</el-button>
         </el-form-item>
     </el-form>
 </template>
@@ -73,6 +73,14 @@ export default {
                 create_date: "",
                 content: "",
                 status: "1"
+            },
+            form_rules: {
+                category_id: [ { required: true, message: "分类不能为空", trigger: 'change' }],
+                title: [ { required: true, message: "标题不能为空", trigger: 'change' } ],
+                image_url: [ { required: true, message: "缩略图不能为空", trigger: 'change' } ],
+                create_date: [ { required: true, message: "请选择发布日期", trigger: 'change' } ],
+                status: [ { required: true, message: "请选择发布状态", trigger: 'change' } ],
+                content: [ { required: true, message: "内容不能为空", trigger: 'change' } ]
             }
         })
         const editor = ref();
@@ -114,6 +122,18 @@ export default {
             data.upload_data.key = key;
             return isJPG && isLt2M;
         }
+        const formDom = ref(null);
+        const handlerSubmitForm = (formName) => {
+    		formDom.value.validate((valid) => {
+    			// 表单验证通过
+    			if (valid) {
+    				console.log(form.field)
+    			} else {
+    				console.log('error submit!!');
+                    return false;
+    			}
+    		})
+    	}
 
         onBeforeMount(() => {
             getList();
@@ -122,8 +142,8 @@ export default {
         onMounted(() => {
             editor_instance = new WangEditor(editor.value);
             Object.assign(editor_instance.config, {
-                onchange() {
-                    console.log('change');
+                onchange(value) {
+                    form.field.content = value;
                 },
             });
             editor_instance.create();
@@ -133,9 +153,11 @@ export default {
             data, 
             editor, 
             category_data, 
+            formDom,
             handlerOnSuccess, 
             handlerOnError, 
-            handlerBeforeOnUpload
+            handlerBeforeOnUpload,
+            handlerSubmitForm
         }
     }
 }
