@@ -1,7 +1,7 @@
 <template>
     <el-form label-width="150px">
         <el-form-item label="信息类别：">
-            <el-cascader v-model="field.category" :options="category_data.category_options" :props="data.cascader_props"></el-cascader>
+            <el-cascader v-model="field.category_id" :options="category_data.category_options" :props="data.cascader_props"></el-cascader>
         </el-form-item>
         <el-form-item label="信息标题：">
             <el-input v-model="field.title"></el-input>
@@ -21,7 +21,7 @@
             </el-upload>
         </el-form-item>
         <el-form-item label="发布日期：">
-            <el-date-picker v-model="field.date" type="datetime" placeholder="选择日期时间" class="info-date"></el-date-picker>
+            <el-date-picker v-model="field.create_date" type="datetime" placeholder="选择日期时间" class="info-date"></el-date-picker>
         </el-form-item>
         <el-form-item label="内容：">
             <div ref="editor"></div>
@@ -62,9 +62,9 @@ export default {
         const form = reactive({
             field: {
                 image_url: "",
-                category: "",
+                category_id: "",
                 title: "",
-                date: "",
+                create_date: "",
                 content: ""
             }
         })
