@@ -1,7 +1,7 @@
 <template>
     <el-form label-width="150px">
         <el-form-item label="信息类别：">
-            <el-cascader v-model="data.category" :options="data.category_options" :props="data.cascader_props"></el-cascader>
+            <el-cascader v-model="data.category" :options="infoData.category_options" :props="data.cascader_props"></el-cascader>
         </el-form-item>
         <el-form-item label="信息标题：">
             <el-input v-model="data.title"></el-input>
@@ -33,6 +33,7 @@
 import { reactive, ref, onMounted, onBeforeMount } from "vue";
 import { useStore } from "vuex";
 import WangEditor from 'wangeditor';
+import { categoryHook } from "@/hook/infoHook";
 export default {
     name: 'InfoDetailed',
     components: {},
@@ -40,6 +41,8 @@ export default {
     setup(props){
         // store
         const store = useStore();
+        // hook
+        const { infoData, handlerGetCategory } = categoryHook();
         const data = reactive({
             imageUrl: "",
             category: "",
@@ -53,13 +56,6 @@ export default {
         })
         const editor = ref();
         let editor_instance = null;
-        /** 获取分类 */
-        const handlerGetCategory = () => {
-            store.dispatch("info/categoryAction").then(response => {
-                data.category_options = response;
-            });
-        };
-
         /** 挂载之前 */
         onBeforeMount(() => {
             handlerGetCategory();
@@ -74,7 +70,7 @@ export default {
             });
             editor_instance.create();
         })
-        return { data, editor }
+        return { data, editor, infoData }
     }
 }
 </script>
