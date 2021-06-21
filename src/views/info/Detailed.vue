@@ -40,9 +40,11 @@
 <script>
 import { reactive, ref, toRefs, onMounted, onBeforeMount, getCurrentInstance } from "vue";
 import { useStore } from "vuex";
+import { useRouter } from "vue-router";
 import WangEditor from 'wangeditor';
 import { categoryHook } from "@/hook/infoHook";
 import { GetQininToken } from "@/api/common";
+import { InfoCreate } from "@/api/info";
 export default {
     name: 'InfoDetailed',
     components: {},
@@ -52,6 +54,8 @@ export default {
         const { proxy } = getCurrentInstance();
         // store
         const store = useStore();
+        // router
+        const { go } = useRouter();
         // hook
         const { infoData: category_data, handlerGetCategory: getList } = categoryHook();
         const data = reactive({
@@ -127,11 +131,17 @@ export default {
     		formDom.value.validate((valid) => {
     			// 表单验证通过
     			if (valid) {
+                    console.log(2222)
                     // 深度拷贝
 					const request_data = JSON.parse(JSON.stringify(form.field));
 					// category_idd 重新赋值
 					request_data.category_id = request_data.category_id[request_data.category_id.length - 1];
-    				console.log(request_data)
+                    InfoCreate(request_data).then(response => {
+                        // 弹窗提示
+                        proxy.$message.success(response.message);  
+                        // 重置表单
+                        go(-1);
+                    })
     			} else {
     				console.log('error submit!!');
                     return false;

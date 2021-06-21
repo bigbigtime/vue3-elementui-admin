@@ -43,3 +43,13 @@ export function CategoryDel(data = {}){
         data
     })
 }
+
+
+/** 添加信息 */
+export function InfoCreate(data = {}){
+    return instance.request({
+        method: "post",
+        url: "/news/add/",
+        data
+    })
+}
