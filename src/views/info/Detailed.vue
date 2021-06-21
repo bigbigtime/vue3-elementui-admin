@@ -21,7 +21,7 @@
             </el-upload>
         </el-form-item>
         <el-form-item label="发布日期：" prop="create_date">
-            <el-date-picker v-model="field.create_date" type="datetime" placeholder="选择日期时间" class="info-date"></el-date-picker>
+            <el-date-picker v-model="field.create_date" type="datetime" value-format="YYYY-MM-DD HH:mm:ss" placeholder="选择日期时间" class="info-date"></el-date-picker>
         </el-form-item>
         <el-form-item label="内容：" prop="content">
             <div ref="editor"></div>
@@ -127,7 +127,11 @@ export default {
     		formDom.value.validate((valid) => {
     			// 表单验证通过
     			if (valid) {
-    				console.log(form.field)
+                    // 深度拷贝
+					const request_data = JSON.parse(JSON.stringify(form.field));
+					// category_idd 重新赋值
+					request_data.category_id = request_data.category_id[request_data.category_id.length - 1];
+    				console.log(request_data)
     			} else {
     				console.log('error submit!!');
                     return false;
