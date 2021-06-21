@@ -1,7 +1,7 @@
 <template>
     <el-form label-width="150px">
         <el-form-item label="信息类别：">
-            <el-cascader v-model="data.category" :options="data.category_options"></el-cascader>
+            <el-cascader v-model="data.category" :options="data.category_options" :props="data.cascader_props"></el-cascader>
         </el-form-item>
         <el-form-item label="信息标题：">
             <el-input v-model="data.title"></el-input>
@@ -45,7 +45,11 @@ export default {
             category: "",
             title: "",
             date: "",
-            category_options: []
+            category_options: [],
+            cascader_props: {
+                label: "category_name",
+                value: "id"
+            }
         })
         const editor = ref();
         let editor_instance = null;
