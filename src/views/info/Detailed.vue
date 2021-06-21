@@ -79,7 +79,11 @@ export default {
             })
         }
 
-        const handlerOnSuccess = (res, file) => {}
+        const handlerOnSuccess = (res, file) => {
+			let image = `http://qv18xxim7.hn-bkt.clouddn.com/${res.key}`;
+			data.image_url = image;
+        }
+
         const handlerOnError = (res, file) => {}
         const handlerBeforeOnUpload = (file) => {
             console.log(file)
