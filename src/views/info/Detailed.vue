@@ -32,7 +32,7 @@
     </el-form>
 </template>
 <script>
-import { reactive, ref, onMounted, onBeforeMount } from "vue";
+import { reactive, ref, onMounted, onBeforeMount, getCurrentInstance } from "vue";
 import { useStore } from "vuex";
 import WangEditor from 'wangeditor';
 import { categoryHook } from "@/hook/infoHook";
@@ -42,6 +42,8 @@ export default {
     components: {},
     props: {},
     setup(props){
+        // 获取实例上下文
+        const { proxy } = getCurrentInstance();
         // store
         const store = useStore();
         // hook
@@ -84,17 +86,11 @@ export default {
             const isJPG = file.type === 'image/jpeg';  // 限制 JPG 格式文件上传
             const isLt2M = file.size / 1024 / 1024 < 2; // 限制文件大小不能大于 2M
             if (!isJPG) {
-                root.gMessage({
-                    msg: "上传图片只能是 JPG 格式!",
-                    type: "error"
-                })
+                proxy.$message.error("上传图片只能是JPG格式!");
                 return false;
             }
             if (!isLt2M) {
-                root.gMessage({
-                    msg: "上传图片大小不能超过 2MB!",
-                    type: "error"
-                })
+                proxy.$message.error("上传图片大小不能超过 2MB!");
                 return false;
             }
             // 文件名转码
