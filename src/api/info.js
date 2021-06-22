@@ -53,3 +53,13 @@ export function InfoCreate(data = {}){
         data
     })
 }
+
+/** 获取列表 */
+export function GetTableList(data = {}){
+    return instance.request({
+        method: "post",
+        url: "/news/getList/",
+        data
+    })
+}
+    

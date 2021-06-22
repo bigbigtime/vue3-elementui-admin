@@ -51,7 +51,7 @@
             :page-size="10"
             :page-sizes="[10, 20, 50, 100]"
             layout="total, sizes, prev, pager, next, jumper"
-            :total="100">
+            :total="data.total">
             </el-pagination>
         </el-col>
     </el-row>
@@ -60,7 +60,8 @@
 
 <script>
 import { useRouter } from "vue-router";
-import{ reactive } from "vue";
+import{ onBeforeMount, reactive } from "vue";
+import { GetTableList } from "@/api/info";
 export default {
     name: 'NewsIndex',
     components: {},
@@ -80,8 +81,21 @@ export default {
                 { name: '王小虎', address: '上海市普陀区金沙江路 1518 弄', date: "2020-06-05 12:00:00" }
             ],
             // 分页
-            currentPage: 1
+            currentPage: 1,
+            // 页码总数
+            total: 0
         });
+        const request_data = reactive({
+            pageNumber: 1,
+            pageSize: 10
+        })
+        const handlerGetList = () => {
+            GetTableList(request_data).then(response => {
+                const response_data = response.data;
+                data.tableData = response_data.data;
+                data.total = response_data.total;
+            })
+        }
 
         // 多选事件
         const handleSelectionChange = (val) => {}
@@ -94,6 +108,10 @@ export default {
                 path: "/newsDetailed"
             })
         }
+
+        onBeforeMount(() => {
+            handlerGetList();
+        })
         return {
             data,
             handleSelectionChange,
